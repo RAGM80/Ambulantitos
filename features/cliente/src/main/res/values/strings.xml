@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cliente_login_marca">ambulantitos</string>
+    <string name="cliente_login_usuario">Usuario</string>
+    <string name="cliente_login_contrasena">Contraseña</string>
+    <string name="cliente_login_entrar">Iniciar Sesión</string>
+    <string name="cliente_login_registro">Crear cuenta nueva</string>
+</resources>
