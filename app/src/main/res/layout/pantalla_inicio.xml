@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity = "center"
+        android:text="@string/titulo_pantalla_inicio"
+        android:textColor="#212121"
+        android:textSize="28sp"
+        android:textStyle="bold"/>
+
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/fondo_tarjeta_vendedor"
+        android:gravity="center"
+        android:minHeight="180dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <ImageView
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_carrito"/>
+        <Button
+            android:id="@+id/btn_vendedor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:minHeight="48dp"
+            android:background="@drawable/fondo_boton_vendedor"
+            android:backgroundTint="@null"
+            android:text="@string/soy_vendedor"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/fondo_tarjeta_cliente"
+        android:gravity="center"
+        android:minHeight="180dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:contentDescription="@null"
+            android:background="@drawable/ic_persona">
+        </ImageView>
+        <Button
+            android:id="@+id/btn_cliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:minHeight="48dp"
+            android:background="@drawable/fondo_boton_cliente"
+            android:backgroundTint="@null"
+            android:text="@string/soy_cliente"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+
+</LinearLayout>
+
+

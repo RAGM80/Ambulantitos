@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="72dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+
+    <!-- Azul para la silueta de Cliente -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M32,7 C21,7 16,16 16,27 C16,37 21,44 28,46
+            L28,48 C15,49 9,54 9,60 L55,60 C55,54 49,49 36,48
+            L36,46 C43,44 48,37 48,27 C48,16 43,7 32,7 Z" />
+</vector>
