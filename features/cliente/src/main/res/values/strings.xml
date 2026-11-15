@@ -5,4 +5,12 @@
     <string name="cliente_login_contrasena">Contraseña</string>
     <string name="cliente_login_entrar">Iniciar Sesión</string>
     <string name="cliente_login_registro">Crear cuenta nueva</string>
+    <string name="cliente_registro_crear">Crear cuenta</string>
+    <string name="cliente_registro_volver">Regresar</string>
+    <string name="cliente_registro_titulo">Crea tu cuenta</string>
+    <string name="cliente_registro_nombres">Nombres</string>
+    <string name="cliente_registro_apellidos">Apellidos</string>
+    <string name="cliente_registro_celular">Número celular</string>
+    <string name="cliente_registro_usuario">Usuario</string>
+    <string name="cliente_registro_contrasena">Contraseña</string>
 </resources>
