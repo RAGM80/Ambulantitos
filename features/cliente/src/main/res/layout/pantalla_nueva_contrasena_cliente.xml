@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Organiza la barra superior y el formulario-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/colorSurface"
+    android:theme="@style/TemaClienteAmbulantitos"
+    tools:theme="@style/TemaClienteAmbulantitos">
+    <!--Muestra la flecha y el título-->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barra_nueva_contrasena"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        app:title="@string/cliente_nueva_contrasena_titulo"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:titleTextColor="?attr/colorOnSurface"
+        app:navigationIcon="@drawable/icono_regresar_cliente"
+        app:navigationContentDescription="@string/cliente_registro_volver" />
+    <!--Permite desplazar el formulario cuando no cabe completo-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+        <!--Acomoda los elementos y deja espacio junto a los bordes-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+            <!--Muestra el candado como imagen decorativa-->
+            <ImageView
+                android:id="@+id/imagen_candado_nueva_contrasena"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="32dp"
+                android:src="@drawable/candado_nueva_contrasena_cliente"
+                android:scaleType="fitCenter"
+                android:contentDescription="@null" />
+            <!--Muestra el encabezado debajo del candado-->
+            <TextView
+                android:id="@+id/titulo_nueva_contrasena"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/cliente_nueva_contrasena_titulo"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+            <!--Dibuja el borde y la etiqueta de la nueva contraseña-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contenedor_nueva_contrasena"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:hint="@string/cliente_nueva_contrasena_campo"
+                app:expandedHintEnabled="false">
+                <!--Permite escribir la contraseña y oculta sus caracteres-->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/campo_nueva_contrasena"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="56dp"
+                    android:inputType="textPassword"
+                    android:autofillHints="newPassword"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--Dibuja el borde y la etiqueta para confirmar la contraseña-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contenedor_confirmar_contrasena"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="@string/cliente_nueva_contrasena_confirmar"
+                app:expandedHintEnabled="false">
+                <!--Permite repetir la contraseña y oculta sus caracteres-->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/campo_confirmar_contrasena"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="56dp"
+                    android:inputType="textPassword"
+                    android:autofillHints="newPassword"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--Muestra el botón sin programar su acción-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/boton_aceptar_nueva_contrasena"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="32dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/cliente_nueva_contrasena_aceptar"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:backgroundTint="?attr/colorPrimary"
+                app:cornerRadius="28dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
