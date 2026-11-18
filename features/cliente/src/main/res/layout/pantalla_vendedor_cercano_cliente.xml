@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Pantalla de vendedor cercano-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/colorSurface"
+    android:theme="@style/TemaClienteAmbulantitos"
+    tools:theme="@style/TemaClienteAmbulantitos">
+    <!--Barra superior-->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barra_vendedor_cercano_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        app:title="@string/cliente_busqueda_titulo"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:titleTextColor="?attr/colorOnSurface"
+        app:navigationIcon="@drawable/icono_regresar_cliente"
+        app:navigationIconTint="?attr/colorPrimary"
+        app:navigationContentDescription="@string/cliente_registro_volver" />
+</LinearLayout>

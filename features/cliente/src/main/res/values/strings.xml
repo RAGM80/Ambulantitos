@@ -21,11 +21,11 @@
     <string name="cliente_recuperar_encabezado">Olvidé mi contraseña</string>
     <string name="cliente_recuperar_usuario_celular">Usuario o celular</string>
     <string name="cliente_recuperar_siguiente">Siguiente</string>
+    <string name="cliente_recuperar_ayuda">Escribe tu usuario o número de celular.</string>
     <string name="cliente_nueva_contrasena_titulo">Nueva contraseña</string>
     <string name="cliente_nueva_contrasena_campo">Nueva contraseña</string>
     <string name="cliente_nueva_contrasena_confirmar">Confirmar contraseña</string>
     <string name="cliente_nueva_contrasena_aceptar">Aceptar</string>
-    <string name="cliente_recuperar_ayuda">Escribe tu usuario o número de celular.</string>
     <string name="cliente_busqueda_titulo">Vendedores cercanos</string>
     <string name="cliente_busqueda_buscar">Buscar</string>
     <string name="cliente_busqueda_todos">Todos</string>
