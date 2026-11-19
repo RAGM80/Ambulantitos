@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Desplazamiento de la pantalla-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
     android:fillViewport="true">
-
+    <!--Contenido del inicio de sesión-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,6 +14,7 @@
         android:paddingTop="72dp"
         android:paddingEnd="28dp"
         android:paddingBottom="32dp">
+        <!--Logo de Ambulantitos-->
         <ImageView
             android:id="@+id/iv_logo_cliente"
             android:layout_width="match_parent"
@@ -20,12 +22,12 @@
             android:src="@drawable/logo_ambulantitos"
             android:scaleType="fitCenter"
             android:contentDescription="@string/cliente_login_marca" />
-
+        <!--Contenedor del usuario-->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="24dp">
-
+            <!--Campo Usuario-->
             <EditText
                 android:id="@+id/et_usuario_cliente"
                 android:layout_width="match_parent"
@@ -41,7 +43,7 @@
                 android:paddingEnd="16dp"
                 android:textColor="#212121"
                 android:textSize="16sp" />
-
+            <!--Etiqueta Usuario-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,14 +55,13 @@
                 android:text="@string/cliente_login_usuario"
                 android:textColor="#666666"
                 android:textSize="12sp" />
-
         </FrameLayout>
-
+        <!--Contenedor de la contraseña-->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="8dp">
-
+            <!--Campo Contraseña-->
             <EditText
                 android:id="@+id/et_contrasena_cliente"
                 android:layout_width="match_parent"
@@ -76,7 +77,7 @@
                 android:paddingEnd="16dp"
                 android:textColor="#212121"
                 android:textSize="16sp" />
-
+            <!--Etiqueta Contraseña-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,9 +89,8 @@
                 android:text="@string/cliente_login_contrasena"
                 android:textColor="#666666"
                 android:textSize="12sp" />
-
         </FrameLayout>
-
+        <!--Botón Iniciar sesión-->
         <Button
             android:id="@+id/btn_login_cliente"
             android:layout_width="match_parent"
@@ -103,7 +103,7 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
-
+        <!--Opción Crear cuenta nueva-->
         <TextView
             android:id="@+id/tv_registro_cliente"
             android:layout_width="match_parent"
@@ -115,7 +115,18 @@
             android:textColor="#352080"
             android:textSize="14sp"
             android:textStyle="bold" />
-
+        <!--Botón Olvidé mi contraseña-->
+        <Button
+            android:id="@+id/boton_recuperar_cuenta_cliente"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/cliente_login_recuperar"
+            android:textAllCaps="false"
+            android:textColor="#352080"
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
-
 </ScrollView>

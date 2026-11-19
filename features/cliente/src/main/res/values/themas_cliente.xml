@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Colores que usaremos en las pantallas del cliente-->
+    <style name="TemaClienteAmbulantitos"
+        parent="Theme.Material3.Light.NoActionBar">
+        <!--Botones y detalles principales-->
+        <item name="colorPrimary">#352080</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <!--Fondo claro y textos-->
+        <item name="colorSurface">#FAFAFA</item>
+        <item name="colorOnSurface">#212121</item>
+        <item name="colorOnSurfaceVariant">#666666</item>
+        <item name="android:colorBackground">#FAFAFA</item>
+        <!--Borde de los campos-->
+        <item name="colorOutline">#808080</item>
+    </style>
+</resources>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Pantalla de búsqueda local-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/colorSurface"
+    android:theme="@style/TemaClienteAmbulantitos"
+    tools:theme="@style/TemaClienteAmbulantitos">
+    <!--Barra superior-->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barra_busqueda_local"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        app:title="@string/cliente_busqueda_titulo"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:titleTextColor="?attr/colorOnSurface"
+        app:navigationIcon="@drawable/icono_regresar_cliente"
+        app:navigationContentDescription="@string/cliente_registro_volver" />
+    <!--Contenido de la pantalla-->
+    <LinearLayout
+        android:id="@+id/contenido_busqueda_local"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="24dp">
+        <!--Campo de búsqueda-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contenedor_busqueda_local"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cliente_busqueda_buscar"
+            app:expandedHintEnabled="false"
+            app:boxCornerRadiusTopStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/icono_buscar_cliente"
+            app:endIconTint="?attr/colorOnSurfaceVariant"
+            app:endIconContentDescription="@string/cliente_busqueda_buscar">
+            <!--Texto de búsqueda-->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/campo_buscar_vendedores_locales"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:imeOptions="actionSearch" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Aviso del modo local-->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="#EEE7F7"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
+            <!--Texto del modo local-->
+            <TextView
+                android:id="@+id/texto_estado_modo_local"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:padding="8dp"
+                android:gravity="center"
+                android:text="@string/cliente_local_modo"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="14sp" />
+        </com.google.android.material.card.MaterialCardView>
+        <!--Filtros de búsqueda-->
+        <LinearLayout
+            android:id="@+id/grupo_filtros_locales"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+            <!--Botón Todos-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/filtro_todos_local"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:minWidth="0dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/cliente_busqueda_todos"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                app:backgroundTint="#352080"
+                app:cornerRadius="24dp"
+                app:strokeWidth="0dp" />
+            <!--Botón Comida-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/filtro_comida_local"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:minWidth="0dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/cliente_busqueda_comida"
+                android:textAllCaps="false"
+                android:textColor="#352080"
+                android:textSize="14sp"
+                app:backgroundTint="#EEE7F7"
+                app:cornerRadius="24dp"
+                app:strokeWidth="0dp" />
+            <!--Botón Bebidas-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/filtro_bebidas_local"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:minWidth="0dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/cliente_busqueda_bebidas"
+                android:textAllCaps="false"
+                android:textColor="#352080"
+                android:textSize="14sp"
+                app:backgroundTint="#EEE7F7"
+                app:cornerRadius="24dp"
+                app:strokeWidth="0dp" />
+        </LinearLayout>
+        <!--Descripción de la búsqueda local-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:gravity="center">
+            <!--Icono de Bluetooth-->
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/icono_bluetooth_cliente"
+                android:contentDescription="@null" />
+            <!--Texto de búsqueda sin internet-->
+            <TextView
+                android:id="@+id/texto_descripcion_busqueda_local"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/cliente_local_descripcion"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <!--Tarjeta del vendedor-->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tarjeta_vendedor_local"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="#EEE7F7"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <!--Nombre del vendedor-->
+                <TextView
+                    android:id="@+id/texto_nombre_vendedor_local"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="28dp"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    tools:text="Nombre del vendedor" />
+                <!--Señal del vendedor-->
+                <TextView
+                    android:id="@+id/texto_senal_vendedor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:minHeight="20dp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="14sp"
+                    tools:text="@string/cliente_local_senal" />
+                <!--Aviso de pago-->
+                <TextView
+                    android:id="@+id/texto_pago_vendedor_local"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/cliente_busqueda_pago"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="14sp" />
+                <!--Botón Ver productos-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/boton_ver_productos_local"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/cliente_busqueda_productos"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="?attr/colorPrimary"
+                    app:cornerRadius="24dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <!--Botón Volver a buscar-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/boton_volver_buscar_local"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/cliente_local_buscar"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:strokeColor="?attr/colorPrimary"
+            app:strokeWidth="1dp"
+            app:cornerRadius="24dp" />
+        <!--Botón Mis pedidos-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/boton_mis_pedidos_local"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/cliente_busqueda_pedidos"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Lupa-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!--círculo de la lupa-->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#666666"
+        android:strokeWidth="2"
+        android:pathData="M10,4 A6,6 0,1 0,10,16 A6,6 0,1 0,10,4" />
+    <!--mango de la lupa-->
+    <path
+        android:strokeColor="#666666"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M14,14 L20,20" />
+
+</vector>

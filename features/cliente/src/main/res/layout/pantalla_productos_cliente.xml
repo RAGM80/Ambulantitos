@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Catálogo de productos del cliente-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/colorSurface"
+    android:theme="@style/TemaClienteAmbulantitos"
+    tools:theme="@style/TemaClienteAmbulantitos">
+    <!--Barra superior-->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barra_productos_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        app:title="@string/cliente_productos_titulo"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:titleTextColor="?attr/colorOnSurface"
+        app:navigationIcon="@drawable/icono_regresar_cliente"
+        app:navigationIconTint="?attr/colorPrimary"
+        app:navigationContentDescription="@string/cliente_registro_volver" />
+    <!--Contenido del catálogo-->
+    <LinearLayout
+        android:id="@+id/contenido_productos_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="24dp">
+        <!--Nombre del vendedor-->
+        <TextView
+            android:id="@+id/texto_vendedor_productos_cliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="32dp"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+        <!--Indicación del catálogo-->
+        <TextView
+            android:id="@+id/texto_indicacion_productos_cliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/cliente_productos_indicacion"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="14sp" />
+        <!--Lista de productos-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lista_productos_cliente"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/cliente_productos_titulo"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="0" />
+    </LinearLayout>
+</LinearLayout>
