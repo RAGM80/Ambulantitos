@@ -38,4 +38,8 @@
     <string name="cliente_local_descripcion">Búsqueda de vendedores cercanos por Bluetooth</string>
     <string name="cliente_local_senal">Señal cercana</string>
     <string name="cliente_local_buscar">Volver a buscar</string>
+    <string name="cliente_cercania_descripcion">Consulta los productos disponibles del vendedor.</string>
+    <string name="cliente_cercania_ahora_no">Ahora no</string>
+    <string name="cliente_productos_titulo">Productos disponibles</string>
+    <string name="cliente_productos_indicacion">Toca un producto para elegirlo.</string>
 </resources>
