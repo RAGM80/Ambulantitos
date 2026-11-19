@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="?attr/colorSurface"
+    android:orientation="vertical"
     android:theme="@style/TemaClienteAmbulantitos"
     tools:theme="@style/TemaClienteAmbulantitos">
     <!--Barra superior-->
@@ -15,12 +15,12 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorSurface"
-        app:title="@string/cliente_productos_titulo"
-        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
-        app:titleTextColor="?attr/colorOnSurface"
+        app:navigationContentDescription="@string/cliente_registro_volver"
         app:navigationIcon="@drawable/icono_regresar_cliente"
         app:navigationIconTint="?attr/colorPrimary"
-        app:navigationContentDescription="@string/cliente_registro_volver" />
+        app:title="@string/cliente_productos_titulo"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:titleTextColor="?attr/colorOnSurface" />
     <!--Contenido del catálogo-->
     <LinearLayout
         android:id="@+id/contenido_productos_cliente"
@@ -52,10 +52,27 @@
             android:id="@+id/lista_productos_cliente"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_marginTop="24dp"
+            android:layout_weight="1"
             android:contentDescription="@string/cliente_productos_titulo"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="0" />
+        <!--Botón Regresar-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/boton_regresar_productos_cliente"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/cliente_registro_volver"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:cornerRadius="24dp"
+            app:strokeColor="?attr/colorPrimary"
+            app:strokeWidth="1dp" />
     </LinearLayout>
 </LinearLayout>
