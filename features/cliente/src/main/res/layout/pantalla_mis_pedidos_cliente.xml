@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:theme="@style/TemaClienteAmbulantitos"
+    tools:theme="@style/TemaClienteAmbulantitos">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barra_mis_pedidos_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationContentDescription="@string/cliente_registro_volver"
+        app:navigationIcon="@drawable/icono_regresar_cliente"
+        app:navigationIconTint="?attr/colorOnSurface"
+        app:title="@string/cliente_mis_pedidos_titulo"
+        app:titleTextColor="?attr/colorOnSurface" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0D9EC" />
+
+    <TextView
+        android:id="@+id/tv_indicacion_mis_pedidos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/cliente_mis_pedidos_indicacion"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="14sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lista_mis_pedidos_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="3"
+        tools:listitem="@layout/elemento_pedido_cliente" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_volver_mapa_cliente"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="16dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/cliente_mis_pedidos_volver_mapa"
+        android:textAllCaps="false"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="15sp"
+        app:cornerRadius="26dp"
+        app:strokeColor="?attr/colorOutline"
+        app:strokeWidth="1dp" />
+
+</LinearLayout>
