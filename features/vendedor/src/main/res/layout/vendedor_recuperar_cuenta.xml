@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF9FC">
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="56dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="4dp"
+    android:paddingEnd="16dp">
+    <ImageButton
+        android:id="@+id/vendedor_recuperar_boton_Volver"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/vendedor_recuperar_volver"
+        android:scaleType="center"
+        android:src="@drawable/vendedor_registro_ic_volver"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:accessibilityHeading="true"
+            android:text="@string/vendedor_recuperar_titulo"
+            android:scaleType="center"
+            android:textColor="#231F26"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+</LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E8DFE7"/>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="56dp"
+        android:paddingBottom="24dp">
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/vendedor_recuperar_ic_candado"
+            android:scaleType="fitCenter"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:accessibilityHeading="true"
+            android:text="@string/vendedor_recuperar_subtitulo"
+            android:textColor="#9E2412"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/vendedor_recuperar_indicacion"
+            android:textColor="#5B505F"
+            android:textSize="14sp" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp">
+
+            <EditText
+                android:id="@+id/vendedor_recuperar_usuario_celular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:minHeight="48dp"
+                android:background="@drawable/vendedor_login_fondo_campo"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:inputType="text"
+                android:singleLine="true" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="#FFF9FC"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:includeFontPadding="false"
+                android:labelFor="@id/vendedor_recuperar_usuario_celular"
+                android:text="@string/vendedor_recuperar_usuario_celular"
+                android:textSize="12sp" />
+
+
+        </FrameLayout>
+        <Button
+            android:id="@+id/vendedor_recuperar_btn_siguiente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:minHeight="48dp"
+            android:background="@drawable/vendedor_login_fondo_boton"
+            android:backgroundTint="@null"
+            android:text="@string/vendedor_recuperar_siguiente"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</ScrollView>
+</LinearLayout>

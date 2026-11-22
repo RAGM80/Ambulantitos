@@ -42,4 +42,23 @@
     <string name="cliente_cercania_ahora_no">Ahora no</string>
     <string name="cliente_productos_titulo">Productos disponibles</string>
     <string name="cliente_productos_indicacion">Toca un producto para elegirlo.</string>
+
+    <string name="cliente_mis_pedidos_titulo">Mis pedidos</string>
+    <string name="cliente_mis_pedidos_indicacion">Toca un pedido para ver los detalles.</string>
+    <string name="cliente_mis_pedidos_volver_mapa">Volver al mapa</string>
+
+    <string name="cliente_detalle_pedido_titulo">Detalle del pedido</string>
+    <string name="cliente_detalle_vendedor">Vendedor</string>
+    <string name="cliente_detalle_producto">Producto</string>
+    <string name="cliente_detalle_cantidad">Cantidad</string>
+    <string name="cliente_detalle_indicaciones">Indicaciones</string>
+    <string name="cliente_detalle_total">Total</string>
+    <string name="cliente_detalle_volver_pedidos">Volver a pedidos</string>
+
+    <string name="cliente_detalle_estado_pendiente">Estado: Pendiente</string>
+    <string name="cliente_detalle_mensaje_pendiente">Esperando a que el vendedor acepte tu pedido.</string>
+    <string name="cliente_detalle_estado_aceptado">Estado: Aceptado</string>
+    <string name="cliente_detalle_mensaje_aceptado">Acércate al vendedor para recoger tu pedido.</string>
+    <string name="cliente_detalle_estado_rechazado">Estado: Rechazado</string>
+    <string name="cliente_detalle_mensaje_rechazado">El vendedor rechazó este pedido.</string>
 </resources>

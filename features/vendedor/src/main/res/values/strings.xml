@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name ="vendedor_login_titulo">Iniciar sesion </string>
+    <string name="vendedor_login_usuario">Usuario</string>
+    <string name="vendedor_login_contraseña">Contraseña</string>
+    <string name="vendedor_login_mostrar_contraseña">Mostrar contraseña </string>
+    <string name="vendedor_login_crear_cuenta">Crear cuenta nueva </string>
+    <string name="vendedor_login_olvide_contraseña">Olvide mi contraseña </string>
+    <string name="vendedor_registro_titulo">Crea tu cuenta</string>
+    <string name="vendedor_registro_volver">Volver </string>
+    <string name="vendedor_registro_nombres">Nombres</string>
+    <string name="vendedor_registro_apellido_paterno">Apellido Paterno</string>
+    <string name="vendedor_registro_apellido_materno">Apellido Materno</string>
+    <string name="vendedor_registro_fecha_nacimiento">Fecha de nacimiento</string>
+    <string name="vendedor_registro_seleccionar_fecha">Seleccionar fecha de nacimiento </string>
+    <string name="vendedor_registro_nombre_negocio">Nombre del negocio</string>
+    <string name="vendedor_registro_usuario">Usuario</string>
+    <string name="vendedor_registro_contraseña">Contraseña</string>
+    <string name="vendedor_registro_mostrar_contraseña">Mostrar contraseña</string>
+    <string name="vendedor_registro_crear_cuenta">Crear cuenta </string>
+    <string name="vendedor_recuperar_titulo">Recuperar cuenta</string>
+    <string name="vendedor_recuperar_volver">Volver</string>
+    <string name="vendedor_recuperar_subtitulo">Olvide mi contraseña </string>
+    <string name="vendedor_recuperar_indicacion">Escribe tu usuario o numero de celular</string>
+    <string name="vendedor_recuperar_usuario_celular">Usuario o celular</string>
+    <string name="vendedor_recuperar_siguiente">Siguiente</string>
+    <string name="vendedor_nueva_contrasena_titulo">Nueva contraseña</string>
+    <string name="vendedor_nueva_contrasena_volver">Volver</string>
+</resources>
