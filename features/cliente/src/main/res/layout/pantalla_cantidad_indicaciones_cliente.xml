@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Pantalla de cantidad e indicaciones del cliente-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFBFE"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:theme="@style/TemaClienteAmbulantitos"
+    tools:theme="@style/TemaClienteAmbulantitos">
+    <!--Barra superior con el nombre del producto-->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barra_cantidad_indicaciones_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#FFFBFE"
+        app:navigationContentDescription="@string/cliente_registro_volver"
+        app:navigationIcon="@drawable/icono_regresar_cliente"
+        app:navigationIconTint="?attr/colorPrimary"
+        app:title="@string/cliente_cantidad_titulo"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:titleTextColor="?attr/colorOnSurface"
+        tools:title="Esquite" />
+    <!--Línea debajo de la barra-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0D9EC" />
+    <!--Desplazamiento de la pantalla-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+        <!--Contenido de la pantalla-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="26dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
+            <!--Recuadro del icono del producto-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:layout_gravity="center_horizontal"
+                app:cardBackgroundColor="#F5EAE4"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E1D8DB"
+                app:strokeWidth="1dp">
+                <!--Espacio para el icono del producto-->
+                <ImageView
+                    android:id="@+id/imagen_producto_cantidad_cliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@null"
+                    android:padding="14dp"
+                    android:scaleType="fitCenter"
+                    tools:src="@android:drawable/ic_menu_gallery" />
+            </com.google.android.material.card.MaterialCardView>
+            <!--Precio unitario del producto-->
+            <TextView
+                android:id="@+id/tv_precio_unitario_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="Precio: $30" />
+            <!--Fila para elegir la cantidad-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <!--Etiqueta Cantidad-->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cliente_cantidad_unidades"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <!--Botón para restar una unidad-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_restar_cantidad_cliente"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="58dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/cliente_cantidad_restar"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="0dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/cliente_cantidad_menos"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="20sp"
+                    app:backgroundTint="#EEE7F7"
+                    app:cornerRadius="18dp" />
+                <!--Cantidad seleccionada-->
+                <TextView
+                    android:id="@+id/tv_cantidad_producto_cliente"
+                    android:layout_width="66dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="1" />
+                <!--Botón para sumar una unidad-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_sumar_cantidad_cliente"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="58dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/cliente_cantidad_sumar"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="0dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/cliente_cantidad_mas"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="20sp"
+                    app:backgroundTint="#EEE7F7"
+                    app:cornerRadius="18dp" />
+            </LinearLayout>
+            <!--Campo para escribir las especificaciones-->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:hint="@string/cliente_cantidad_indicaciones"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/campo_indicaciones_cliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLines="4"
+                    android:minHeight="56dp"
+                    android:textSize="16sp"
+                    tools:text="Sin chile" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--Tarjeta del total-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:cardBackgroundColor="#EEE7F7"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:minHeight="70dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp">
+                    <!--Etiqueta Total-->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cliente_cantidad_total"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                    <!--Importe total del producto-->
+                    <TextView
+                        android:id="@+id/tv_total_cantidad_cliente"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:gravity="end"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        tools:text="$30" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <!--Botón Revisar pedido-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_revisar_pedido_cliente"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="54dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="50dp"
+                android:text="@string/cliente_cantidad_revisar"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:cornerRadius="25dp" />
+            <!--Botón Regresar-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_regresar_cantidad_cliente"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:minHeight="48dp"
+                android:text="@string/cliente_registro_volver"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

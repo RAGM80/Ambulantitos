@@ -42,11 +42,9 @@
     <string name="cliente_cercania_ahora_no">Ahora no</string>
     <string name="cliente_productos_titulo">Productos disponibles</string>
     <string name="cliente_productos_indicacion">Toca un producto para elegirlo.</string>
-
     <string name="cliente_mis_pedidos_titulo">Mis pedidos</string>
     <string name="cliente_mis_pedidos_indicacion">Toca un pedido para ver los detalles.</string>
     <string name="cliente_mis_pedidos_volver_mapa">Volver al mapa</string>
-
     <string name="cliente_detalle_pedido_titulo">Detalle del pedido</string>
     <string name="cliente_detalle_vendedor">Vendedor</string>
     <string name="cliente_detalle_producto">Producto</string>
@@ -54,11 +52,30 @@
     <string name="cliente_detalle_indicaciones">Indicaciones</string>
     <string name="cliente_detalle_total">Total</string>
     <string name="cliente_detalle_volver_pedidos">Volver a pedidos</string>
-
     <string name="cliente_detalle_estado_pendiente">Estado: Pendiente</string>
     <string name="cliente_detalle_mensaje_pendiente">Esperando a que el vendedor acepte tu pedido.</string>
     <string name="cliente_detalle_estado_aceptado">Estado: Aceptado</string>
     <string name="cliente_detalle_mensaje_aceptado">Acércate al vendedor para recoger tu pedido.</string>
     <string name="cliente_detalle_estado_rechazado">Estado: Rechazado</string>
     <string name="cliente_detalle_mensaje_rechazado">El vendedor rechazó este pedido.</string>
+    <string name="cliente_cantidad_titulo">Producto</string>
+    <string name="cliente_cantidad_total">Total</string>
+    <string name="cliente_cantidad_unidades">Cantidad</string>
+    <string name="cliente_cantidad_restar">Restar una unidad</string>
+    <string name="cliente_cantidad_sumar">Sumar una unidad</string>
+    <string name="cliente_cantidad_menos">−</string>
+    <string name="cliente_cantidad_mas">+</string>
+    <string name="cliente_cantidad_indicaciones">Especificaciones</string>
+    <string name="cliente_cantidad_revisar">Revisar pedido</string>
+    <string name="cliente_revision_titulo">Revisa tu pedido</string>
+    <string name="cliente_revision_enviar">Enviar pedido</string>
+    <string name="cliente_recibido_titulo">Pedido enviado</string>
+    <string name="cliente_recibido_confirmacion">Recibido por el vendedor.</string>
+    <string name="cliente_recibido_espera">Esperando aceptación.</string>
+    <string name="cliente_recibido_ver_pedidos">Ver mis pedidos</string>
+    <string name="cliente_interrumpido_titulo">Envío sin confirmar</string>
+    <string name="cliente_interrumpido_aviso">Se perdió la conexión.</string>
+    <string name="cliente_interrumpido_ayuda">Acércate al vendedor o vuelve a conectarte para comprobar el envío.</string>
+    <string name="cliente_catalogo_vacio_titulo">Sin productos disponibles</string>
+    <string name="cliente_catalogo_vacio_mensaje">El vendedor no tiene productos en existencia por ahora.</string>
 </resources>

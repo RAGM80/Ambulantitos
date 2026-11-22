@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Pantalla de revisión del pedido del cliente-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFBFE"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:theme="@style/TemaClienteAmbulantitos"
+    tools:theme="@style/TemaClienteAmbulantitos">
+    <!--Barra superior-->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barra_revision_pedido_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#FFFBFE"
+        app:navigationContentDescription="@string/cliente_registro_volver"
+        app:navigationIcon="@drawable/icono_regresar_cliente"
+        app:navigationIconTint="?attr/colorPrimary"
+        app:title="@string/cliente_revision_titulo"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:titleTextColor="?attr/colorOnSurface" />
+    <!--Línea debajo de la barra-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0D9EC" />
+    <!--Desplazamiento de la pantalla-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+        <!--Contenido de la revisión-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="38dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
+            <!--Tarjeta con el resumen del pedido-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#F3EDF7"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="18dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="18dp"
+                    android:paddingBottom="12dp">
+                    <!--Número del pedido-->
+                    <TextView
+                        android:id="@+id/tv_numero_revision_cliente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        tools:text="Pedido 1" />
+                    <!--Datos del pedido en dos columnas-->
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:shrinkColumns="1"
+                        android:stretchColumns="1">
+                        <!--Vendedor-->
+                        <TableRow
+                            android:gravity="center_vertical"
+                            android:minHeight="30dp">
+                            <TextView
+                                android:layout_marginEnd="12dp"
+                                android:text="@string/cliente_detalle_vendedor"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/tv_vendedor_revision_cliente"
+                                android:gravity="end"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                tools:text="Elotitos" />
+                        </TableRow>
+                        <!--Producto-->
+                        <TableRow
+                            android:gravity="center_vertical"
+                            android:minHeight="30dp">
+                            <TextView
+                                android:layout_marginEnd="12dp"
+                                android:text="@string/cliente_detalle_producto"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/tv_producto_revision_cliente"
+                                android:gravity="end"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                tools:text="Esquite" />
+                        </TableRow>
+                        <!--Cantidad-->
+                        <TableRow
+                            android:gravity="center_vertical"
+                            android:minHeight="30dp">
+                            <TextView
+                                android:layout_marginEnd="12dp"
+                                android:text="@string/cliente_detalle_cantidad"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/tv_cantidad_revision_cliente"
+                                android:gravity="end"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                tools:text="1" />
+                        </TableRow>
+                        <!--Indicaciones-->
+                        <TableRow
+                            android:gravity="center_vertical"
+                            android:minHeight="30dp">
+                            <TextView
+                                android:layout_marginEnd="12dp"
+                                android:text="@string/cliente_detalle_indicaciones"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/tv_indicaciones_revision_cliente"
+                                android:gravity="end"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                tools:text="Sin chile" />
+                        </TableRow>
+                    </TableLayout>
+                    <!--Línea antes del total-->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:background="#E0D9EC" />
+                    <!--Total del pedido-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="42dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/cliente_detalle_total"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_total_revision_cliente"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            tools:text="$30" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <!--Recuadro de la forma de pago-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="38dp"
+                app:cardBackgroundColor="#F7EED8"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
+                <TextView
+                    android:id="@+id/tv_forma_pago_revision_cliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="74dp"
+                    android:padding="18dp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="15sp"
+                    tools:text="@string/cliente_busqueda_pago" />
+            </com.google.android.material.card.MaterialCardView>
+            <!--Botón Enviar pedido-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_enviar_pedido_cliente"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="50dp"
+                android:text="@string/cliente_revision_enviar"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:cornerRadius="25dp" />
+            <!--Botón Regresar-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_regresar_revision_cliente"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:minHeight="48dp"
+                android:text="@string/cliente_registro_volver"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

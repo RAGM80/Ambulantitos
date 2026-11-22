@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Pantalla del catálogo sin disponibilidad-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFBFE"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:theme="@style/TemaClienteAmbulantitos"
+    tools:theme="@style/TemaClienteAmbulantitos">
+    <!--Barra superior del catálogo-->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barra_catalogo_vacio_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#FFFBFE"
+        app:navigationContentDescription="@string/cliente_registro_volver"
+        app:navigationIcon="@drawable/icono_regresar_cliente"
+        app:navigationIconTint="?attr/colorPrimary"
+        app:title="@string/cliente_productos_titulo"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:titleTextColor="?attr/colorOnSurface" />
+    <!--Línea debajo de la barra-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0D9EC" />
+    <!--Desplazamiento del contenido-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+        <!--Contenido del catálogo vacío-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
+            <!--Nombre del vendedor seleccionado-->
+            <TextView
+                android:id="@+id/tv_vendedor_sin_productos_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="Elotitos" />
+            <!--Icono del carrito-->
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="144dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icono_catalogo_vacio_cliente" />
+            <!--Mensaje principal del catálogo vacío-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:text="@string/cliente_catalogo_vacio_titulo"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <!--Explicación de la falta de productos-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/cliente_catalogo_vacio_mensaje"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
+    <!--Botón Regresar al pie de la pantalla-->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_regresar_catalogo_vacio_cliente"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="36dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minHeight="50dp"
+        android:text="@string/cliente_registro_volver"
+        android:textAllCaps="false"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="16sp"
+        app:cornerRadius="25dp"
+        app:strokeColor="?attr/colorPrimary"
+        app:strokeWidth="1dp" />
+</LinearLayout>
