@@ -56,5 +56,12 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
+        <ImageView
+            android:id="@+id/flecha_producto_cliente"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/icono_ver_producto_cliente"
+            android:contentDescription="@null" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
