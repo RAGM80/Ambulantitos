@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Pantalla de conexión interrumpida del cliente-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFBFE"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:theme="@style/TemaClienteAmbulantitos"
+    tools:theme="@style/TemaClienteAmbulantitos">
+    <!--Barra superior-->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barra_conexion_interrumpida_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#FFFBFE"
+        app:navigationContentDescription="@string/cliente_registro_volver"
+        app:navigationIcon="@drawable/icono_regresar_cliente"
+        app:navigationIconTint="?attr/colorPrimary"
+        app:title="@string/cliente_interrumpido_titulo"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:titleTextColor="?attr/colorOnSurface" />
+    <!--Línea debajo de la barra-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0D9EC" />
+    <!--Desplazamiento de la pantalla-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+        <!--Contenido del aviso-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
+            <!--Indicador del modo local-->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/indicador_p2p_interrumpido_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:cardBackgroundColor="#EEE7F7"
+                app:cardCornerRadius="17dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
+                tools:visibility="visible">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:minHeight="34dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="@string/cliente_local_modo"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="12sp" />
+            </com.google.android.material.card.MaterialCardView>
+            <!--Número del pedido-->
+            <TextView
+                android:id="@+id/tv_numero_interrumpido_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                tools:text="Pedido 1" />
+            <!--Aviso de conexión interrumpida-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/cliente_interrumpido_aviso"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="18sp" />
+            <!--Indicación para comprobar el envío-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/cliente_interrumpido_ayuda"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="16sp" />
+            <!--Tarjeta con el resumen del pedido-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="62dp"
+                app:cardBackgroundColor="#EEE7F7"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="92dp"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+                    <!--Número del pedido y nombre del vendedor-->
+                    <TextView
+                        android:id="@+id/tv_resumen_interrumpido_cliente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="Pedido 1 - Elotitos" />
+                    <!--Cantidad y producto del pedido-->
+                    <TextView
+                        android:id="@+id/tv_productos_interrumpido_cliente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="14sp"
+                        tools:text="1 esquite" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <!--Botón Ver mis pedidos-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_ver_pedidos_interrumpido_cliente"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="50dp"
+                android:text="@string/cliente_recibido_ver_pedidos"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:cornerRadius="25dp" />
+            <!--Botón Volver al mapa-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_volver_mapa_interrumpido_cliente"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="50dp"
+                android:text="@string/cliente_mis_pedidos_volver_mapa"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp"
+                app:cornerRadius="25dp"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
