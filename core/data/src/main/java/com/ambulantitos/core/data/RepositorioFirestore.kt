@@ -1,15 +1,9 @@
 package com.ambulantitos.core.data
 
-import com.ambulantitos.core.data.firebase.FirebaseAmbulantitos
-import com.ambulantitos.core.data.firebase.aMapaFirestore
-import com.ambulantitos.core.data.firebase.aOrder
-import com.ambulantitos.core.data.firebase.aProduct
-import com.ambulantitos.core.data.firebase.aUser
-import com.ambulantitos.core.data.firebase.aVendor
-import com.ambulantitos.core.domain.ColeccionesFirestore
+import com.ambulantitos.core.database.firebase.FuenteAutenticacionFirebase
+import com.ambulantitos.core.database.firebase.FuenteFirestore
 import com.ambulantitos.core.domain.EstadoEnvio
 import com.ambulantitos.core.domain.EstadoPedido
-import com.ambulantitos.core.domain.EstadoProducto
 import com.ambulantitos.core.domain.FormasPago
 import com.ambulantitos.core.domain.IconoProducto
 import com.ambulantitos.core.domain.Order
@@ -18,31 +12,20 @@ import com.ambulantitos.core.domain.Product
 import com.ambulantitos.core.domain.RolUsuario
 import com.ambulantitos.core.domain.User
 import com.ambulantitos.core.domain.Vendor
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.SetOptions
-import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withTimeoutOrNull
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
 class RepositorioFirestore(
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
-    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance(),
+    private val auth: FuenteAutenticacionFirebase = FuenteAutenticacionFirebase(),
+    private val baseDeDatos: FuenteFirestore = FuenteFirestore(),
 ) {
-    init {
-        FirebaseAmbulantitos.activarCachePersistente()
-    }
-
-    fun uidActual(): String? = auth.currentUser?.uid
+    fun uidActual(): String? = auth.uidActual()
 
     suspend fun obtenerUsuarioActual(): ResultadoAmbulantitos<User> {
         val uid = uidActual() ?: return ResultadoAmbulantitos.Error("No hay una sesión activa.")
@@ -50,8 +33,7 @@ class RepositorioFirestore(
     }
 
     suspend fun obtenerUsuario(userId: String): ResultadoAmbulantitos<User> = ejecutar {
-        val snapshot = firestore.collection(ColeccionesFirestore.USERS).document(userId).get().await()
-        snapshot.aUser() ?: error("No se encontró el perfil del usuario.")
+        baseDeDatos.obtenerUsuario(userId) ?: error("No se encontró el perfil del usuario.")
     }
 
     suspend fun registrarCliente(
@@ -103,138 +85,58 @@ class RepositorioFirestore(
         contrasena: String,
         rolEsperado: String? = null,
     ): ResultadoAmbulantitos<User> = ejecutar {
-        val correo = correoDesdeUsuario(usuario)
-        auth.signInWithEmailAndPassword(correo, contrasena).await()
-        val uid = uidActual() ?: error("No se pudo iniciar sesión.")
-        val perfil = firestore.collection(ColeccionesFirestore.USERS).document(uid).get().await().aUser()
-            ?: error("No se encontró el perfil en Firestore.")
+        val uid = auth.iniciarSesion(correoDesdeUsuario(usuario), contrasena)
+        val perfil = baseDeDatos.obtenerUsuario(uid) ?: error("No se encontró el perfil en Firestore.")
         if (rolEsperado != null && perfil.role != rolEsperado) {
-            auth.signOut()
+            auth.cerrarSesion()
             error("Esta cuenta no corresponde a este tipo de usuario.")
         }
         perfil
     }
 
-    fun cerrarSesion() {
-        auth.signOut()
-    }
+    fun cerrarSesion() = auth.cerrarSesion()
 
     suspend fun guardarVendedor(vendedor: Vendor): ResultadoAmbulantitos<Vendor> = ejecutar {
         val normalizado = vendedor.copy(formaPagoPorDefecto = FormasPago.EFECTIVO_AL_ENTREGAR)
-        firestore.collection(ColeccionesFirestore.VENDORS)
-            .document(normalizado.vendorId)
-            .set(normalizado.aMapaFirestore(), SetOptions.merge())
-            .await()
+        baseDeDatos.guardarVendedor(normalizado)
         normalizado
     }
 
     suspend fun obtenerVendedor(vendorId: String): ResultadoAmbulantitos<Vendor> = ejecutar {
-        val snapshot = firestore.collection(ColeccionesFirestore.VENDORS).document(vendorId).get().await()
-        snapshot.aVendor() ?: error("No se encontró el negocio.")
+        baseDeDatos.obtenerVendedor(vendorId) ?: error("No se encontró el negocio.")
     }
 
     fun escucharProductosVendedor(vendorId: String): Flow<List<Product>> =
-        callbackFlow {
-            val registro = productos(vendorId)
-                .whereEqualTo("activo", true)
-                .addSnapshotListener { snapshot, error ->
-                    if (error != null) {
-                        close(error)
-                        return@addSnapshotListener
-                    }
-                    val productos = snapshot?.documents
-                        ?.mapNotNull { it.aProduct() }
-                        ?.filter { it.activo }
-                        .orEmpty()
-                    trySend(productos)
-                }
-            awaitClose { registro.remove() }
-        }
+        baseDeDatos.escucharProductosVendedor(vendorId).map { it.filter(Product::activo) }
 
     fun escucharCatalogoCliente(vendorId: String): Flow<List<Product>> =
-        callbackFlow {
-            val registro = productos(vendorId)
-                .whereEqualTo("activo", true)
-                .whereEqualTo("estado", EstadoProducto.EN_EXISTENCIA)
-                .whereGreaterThan("existencias", 0)
-                .addSnapshotListener { snapshot, error ->
-                    if (error != null) {
-                        close(error)
-                        return@addSnapshotListener
-                    }
-                    val productos = snapshot?.documents
-                        ?.mapNotNull { it.aProduct() }
-                        ?.filter { it.visibleEnCatalogoCliente }
-                        .orEmpty()
-                    trySend(productos)
-                }
-            awaitClose { registro.remove() }
-        }
+        baseDeDatos.escucharCatalogoCliente(vendorId).map { it.filter(Product::visibleEnCatalogoCliente) }
 
     suspend fun listarProductosVendedor(vendorId: String): ResultadoAmbulantitos<List<Product>> = ejecutar {
-        productos(vendorId)
-            .whereEqualTo("activo", true)
-            .get()
-            .await()
-            .documents
-            .mapNotNull { it.aProduct() }
-            .filter { it.activo }
+        baseDeDatos.listarProductosVendedor(vendorId).filter(Product::activo)
     }
 
     suspend fun listarCatalogoCliente(vendorId: String): ResultadoAmbulantitos<List<Product>> = ejecutar {
-        productos(vendorId)
-            .whereEqualTo("activo", true)
-            .whereEqualTo("estado", EstadoProducto.EN_EXISTENCIA)
-            .whereGreaterThan("existencias", 0)
-            .get()
-            .await()
-            .documents
-            .mapNotNull { it.aProduct() }
-            .filter { it.visibleEnCatalogoCliente }
+        baseDeDatos.listarCatalogoCliente(vendorId).filter(Product::visibleEnCatalogoCliente)
     }
 
     suspend fun crearProducto(vendorId: String, producto: Product): ResultadoAmbulantitos<Product> = ejecutar {
-        val referencia = if (producto.productId.isBlank()) {
-            productos(vendorId).document()
-        } else {
-            productos(vendorId).document(producto.productId)
-        }
-        val guardado = producto.copy(
-            productId = referencia.id,
-            iconoClave = IconoProducto.normalizar(producto.iconoClave),
-            ingredientes = producto.ingredientes.take(6),
-            activo = true,
-        )
-        referencia.set(guardado.aMapaFirestore()).await()
-        guardado
+        val nuevo = normalizarProducto(producto).copy(activo = true)
+        baseDeDatos.crearProducto(vendorId, nuevo)
     }
 
     suspend fun editarProducto(vendorId: String, producto: Product): ResultadoAmbulantitos<Product> = ejecutar {
         require(producto.productId.isNotBlank()) { "Falta el identificador del producto." }
-        val actualizado = producto.copy(
-            iconoClave = IconoProducto.normalizar(producto.iconoClave),
-            ingredientes = producto.ingredientes.take(6),
-        )
-        productos(vendorId).document(producto.productId)
-            .set(actualizado.aMapaFirestore(), SetOptions.merge())
-            .await()
+        val actualizado = normalizarProducto(producto)
+        baseDeDatos.editarProducto(vendorId, actualizado)
         actualizado
     }
 
     suspend fun marcarProductoAgotado(vendorId: String, productId: String): ResultadoAmbulantitos<Unit> =
-        ejecutar {
-            productos(vendorId).document(productId).update(
-                mapOf(
-                    "estado" to EstadoProducto.AGOTADO,
-                    "existencias" to 0,
-                ),
-            ).await()
-        }
+        ejecutar { baseDeDatos.marcarProductoAgotado(vendorId, productId) }
 
     suspend fun desactivarProducto(vendorId: String, productId: String): ResultadoAmbulantitos<Unit> =
-        ejecutar {
-            productos(vendorId).document(productId).update("activo", false).await()
-        }
+        ejecutar { baseDeDatos.desactivarProducto(vendorId, productId) }
 
     suspend fun crearPedido(
         clientId: String,
@@ -246,144 +148,51 @@ class RepositorioFirestore(
         timeoutConfirmacionMs: Long = 8_000L,
     ): ResultadoAmbulantitos<Order> = ejecutar {
         require(items.isNotEmpty()) { "El pedido no tiene productos." }
-        val ahora = System.currentTimeMillis()
-        val vendorRef = firestore.collection(ColeccionesFirestore.VENDORS).document(vendorId)
-        val orderRef = firestore.collection(ColeccionesFirestore.ORDERS).document()
-        val numeroPedido = firestore.runTransaction { transaccion ->
-            val vendorSnap = transaccion.get(vendorRef)
-            val actual = (vendorSnap.getLong("contadorPedidos") ?: 0L).toInt()
-            val siguiente = actual + 1
-            transaccion.update(vendorRef, "contadorPedidos", siguiente)
-            siguiente
-        }.await()
-
-        val pedido = Order(
-            orderId = orderRef.id,
-            numeroPedido = numeroPedido,
-            clientId = clientId,
-            clienteNombre = clienteNombre,
-            vendorId = vendorId,
-            vendedorNombre = vendedorNombre,
-            items = items,
-            total = items.sumOf { it.subtotal },
-            formaPago = FormasPago.EFECTIVO_AL_ENTREGAR,
-            estado = EstadoPedido.PENDIENTE,
-            estadoEnvio = EstadoEnvio.SIN_CONFIRMAR,
-            modoLocalP2P = modoLocalP2P,
-            horaCreacion = horaActual(),
-            createdAt = ahora,
+        val pedido = baseDeDatos.crearPedido(
+            Order(
+                clientId = clientId,
+                clienteNombre = clienteNombre,
+                vendorId = vendorId,
+                vendedorNombre = vendedorNombre,
+                items = items,
+                total = items.sumOf { it.subtotal },
+                modoLocalP2P = modoLocalP2P,
+                horaCreacion = horaActual(),
+                createdAt = System.currentTimeMillis(),
+            ),
         )
-        orderRef.set(pedido.aMapaFirestore()).await()
-        val confirmado = confirmarEscrituraPendiente(timeoutConfirmacionMs)
-        if (confirmado) {
-            orderRef.update("estadoEnvio", EstadoEnvio.CONFIRMADO).await()
+        if (confirmarEscrituraPendiente(timeoutConfirmacionMs)) {
+            baseDeDatos.confirmarEnvioPedido(pedido.orderId)
             pedido.copy(estadoEnvio = EstadoEnvio.CONFIRMADO)
         } else {
             pedido
         }
     }
 
-    fun escucharPedidosCliente(clientId: String): Flow<List<Order>> =
-        escucharPedidos("clientId", clientId)
+    fun escucharPedidosCliente(clientId: String): Flow<List<Order>> = baseDeDatos.escucharPedidosCliente(clientId)
 
-    fun escucharPedidosVendedor(vendorId: String): Flow<List<Order>> =
-        escucharPedidos("vendorId", vendorId)
+    fun escucharPedidosVendedor(vendorId: String): Flow<List<Order>> = baseDeDatos.escucharPedidosVendedor(vendorId)
 
-    fun escucharPedido(orderId: String): Flow<Order?> = callbackFlow {
-        val registro: ListenerRegistration = firestore.collection(ColeccionesFirestore.ORDERS)
-            .document(orderId)
-            .addSnapshotListener { snapshot, error ->
-                if (error != null) {
-                    close(error)
-                    return@addSnapshotListener
-                }
-                trySend(snapshot?.aOrder())
-            }
-        awaitClose { registro.remove() }
-    }
+    fun escucharPedido(orderId: String): Flow<Order?> = baseDeDatos.escucharPedido(orderId)
 
     suspend fun actualizarEstadoPedido(
         orderId: String,
         nuevoEstado: String,
-    ): ResultadoAmbulantitos<Unit> {
-        return when (nuevoEstado) {
-            EstadoPedido.ACEPTADO -> aceptarPedido(orderId)
-            EstadoPedido.RECHAZADO,
-            EstadoPedido.ENTREGADO,
-            EstadoPedido.PENDIENTE,
-            -> ejecutar {
-                firestore.collection(ColeccionesFirestore.ORDERS)
-                    .document(orderId)
-                    .update("estado", nuevoEstado)
-                    .await()
-            }
-            else -> ResultadoAmbulantitos.Error("Estado de pedido no válido.")
-        }
+    ): ResultadoAmbulantitos<Unit> = when (nuevoEstado) {
+        EstadoPedido.ACEPTADO -> aceptarPedido(orderId)
+        EstadoPedido.RECHAZADO, EstadoPedido.ENTREGADO, EstadoPedido.PENDIENTE ->
+            ejecutar { baseDeDatos.actualizarEstadoPedido(orderId, nuevoEstado) }
+        else -> ResultadoAmbulantitos.Error("Estado de pedido no válido.")
     }
 
-    suspend fun aceptarPedido(orderId: String): ResultadoAmbulantitos<Unit> = ejecutar {
-        val orderRef = firestore.collection(ColeccionesFirestore.ORDERS).document(orderId)
-        firestore.runTransaction { transaccion ->
-            val orderSnap = transaccion.get(orderRef)
-            val pedido = orderSnap.aOrder() ?: throw FirebaseFirestoreException(
-                "No se encontró el pedido.",
-                FirebaseFirestoreException.Code.NOT_FOUND,
-            )
-            if (pedido.estado == EstadoPedido.ACEPTADO) {
-                return@runTransaction null
-            }
-            if (pedido.estado != EstadoPedido.PENDIENTE) {
-                throw FirebaseFirestoreException(
-                    "Solo se pueden aceptar pedidos pendientes.",
-                    FirebaseFirestoreException.Code.FAILED_PRECONDITION,
-                )
-            }
-            pedido.items.forEach { item ->
-                val productRef = productos(pedido.vendorId).document(item.productId)
-                val productSnap = transaccion.get(productRef)
-                val producto = productSnap.aProduct() ?: throw FirebaseFirestoreException(
-                    "El producto ${item.producto} ya no está disponible.",
-                    FirebaseFirestoreException.Code.NOT_FOUND,
-                )
-                if (!producto.activo) {
-                    throw FirebaseFirestoreException(
-                        "El producto ${producto.nombre} no está activo.",
-                        FirebaseFirestoreException.Code.FAILED_PRECONDITION,
-                    )
-                }
-                if (producto.existencias < item.cantidad) {
-                    throw FirebaseFirestoreException(
-                        "No hay existencias suficientes de ${producto.nombre}.",
-                        FirebaseFirestoreException.Code.FAILED_PRECONDITION,
-                    )
-                }
-                val nuevasExistencias = producto.existencias - item.cantidad
-                transaccion.update(
-                    productRef,
-                    mapOf(
-                        "existencias" to nuevasExistencias,
-                        "estado" to if (nuevasExistencias <= 0) {
-                            EstadoProducto.AGOTADO
-                        } else {
-                            EstadoProducto.EN_EXISTENCIA
-                        },
-                    ),
-                )
-            }
-            transaccion.update(orderRef, "estado", EstadoPedido.ACEPTADO)
-            null
-        }.await()
-    }
+    suspend fun aceptarPedido(orderId: String): ResultadoAmbulantitos<Unit> =
+        ejecutar { baseDeDatos.aceptarPedido(orderId) }
 
     suspend fun confirmarEnvioPedido(orderId: String): ResultadoAmbulantitos<Unit> = ejecutar {
-        val confirmado = confirmarEscrituraPendiente()
-        if (!confirmado) {
-            error("El envío sigue sin confirmar. Revisa la conexión e inténtalo de nuevo.")
+        check(confirmarEscrituraPendiente()) {
+            "El envío sigue sin confirmar. Revisa la conexión e inténtalo de nuevo."
         }
-        firestore.collection(ColeccionesFirestore.ORDERS)
-            .document(orderId)
-            .update("estadoEnvio", EstadoEnvio.CONFIRMADO)
-            .await()
+        baseDeDatos.confirmarEnvioPedido(orderId)
     }
 
     private suspend fun registrarUsuario(
@@ -392,87 +201,54 @@ class RepositorioFirestore(
         descripcion: String = "",
         categoriaPrincipal: String = "",
     ): ResultadoAmbulantitos<User> {
-        val usuarioNormalizado = normalizarUsuario(perfil.usuario)
-        if (usuarioNormalizado.length < 3) {
+        val usuario = normalizarUsuario(perfil.usuario)
+        if (usuario.length < 3) {
             return ResultadoAmbulantitos.Error("El usuario debe tener al menos 3 caracteres.")
         }
         if (contrasena.length < 6) {
             return ResultadoAmbulantitos.Error("La contraseña debe tener al menos 6 caracteres.")
         }
         return ejecutar {
-            val correo = correoDesdeUsuario(perfil.usuario)
-            val credencial = auth.createUserWithEmailAndPassword(correo, contrasena).await()
-            val uid = credencial.user?.uid ?: error("No se pudo crear la cuenta.")
-            val usernameRef = firestore.collection(ColeccionesFirestore.USERNAMES).document(usuarioNormalizado)
-            val userRef = firestore.collection(ColeccionesFirestore.USERS).document(uid)
+            val cuenta = auth.crearCuenta(correoDesdeUsuario(usuario), contrasena)
+            val vendorId = cuenta.uid.takeIf { perfil.role == RolUsuario.VENDEDOR }
+            val perfilGuardado = perfil.copy(userId = cuenta.uid, vendorId = vendorId, usuario = usuario)
+            val vendedor = vendorId?.let {
+                Vendor(
+                    vendorId = it,
+                    ownerUserId = cuenta.uid,
+                    nombreNegocio = perfil.nombreNegocio.orEmpty(),
+                    descripcion = descripcion,
+                    categoriaPrincipal = categoriaPrincipal,
+                )
+            }
             try {
-                val vendorId = if (perfil.role == RolUsuario.VENDEDOR) uid else null
-                val perfilGuardado = perfil.copy(userId = uid, vendorId = vendorId, usuario = usuarioNormalizado)
-                firestore.runTransaction { transaccion ->
-                    val existente = transaccion.get(usernameRef)
-                    if (existente.exists()) {
-                        throw FirebaseFirestoreException(
-                            "Ese nombre de usuario ya está ocupado.",
-                            FirebaseFirestoreException.Code.ALREADY_EXISTS,
-                        )
-                    }
-                    transaccion.set(userRef, perfilGuardado.aMapaFirestore())
-                    transaccion.set(
-                        usernameRef,
-                        mapOf(
-                            "userId" to uid,
-                            "role" to perfil.role,
-                            "usuario" to usuarioNormalizado,
-                        ),
-                    )
-                    if (perfil.role == RolUsuario.VENDEDOR && vendorId != null) {
-                        val vendedor = Vendor(
-                            vendorId = vendorId,
-                            ownerUserId = uid,
-                            nombreNegocio = perfil.nombreNegocio.orEmpty(),
-                            descripcion = descripcion,
-                            categoriaPrincipal = categoriaPrincipal,
-                            formaPagoPorDefecto = FormasPago.EFECTIVO_AL_ENTREGAR,
-                        )
-                        transaccion.set(
-                            firestore.collection(ColeccionesFirestore.VENDORS).document(vendorId),
-                            vendedor.aMapaFirestore(),
-                        )
-                    }
-                }.await()
-                perfilGuardado
+                baseDeDatos.guardarRegistro(perfilGuardado, vendedor)
+            } catch (error: CancellationException) {
+                throw error
             } catch (error: Exception) {
-                credencial.user?.delete()?.await()
+                try {
+                    cuenta.eliminar()
+                } catch (cancelacion: CancellationException) {
+                    throw cancelacion
+                } catch (errorAlEliminar: Exception) {
+                    error.addSuppressed(errorAlEliminar)
+                }
                 throw error
             }
+            perfilGuardado
         }
     }
 
-    private fun escucharPedidos(campo: String, valor: String): Flow<List<Order>> = callbackFlow {
-        val registro = firestore.collection(ColeccionesFirestore.ORDERS)
-            .whereEqualTo(campo, valor)
-            .orderBy("createdAt", Query.Direction.DESCENDING)
-            .addSnapshotListener { snapshot, error ->
-                if (error != null) {
-                    close(error)
-                    return@addSnapshotListener
-                }
-                trySend(snapshot?.documents?.mapNotNull { it.aOrder() }.orEmpty())
-            }
-        awaitClose { registro.remove() }
-    }
-
-    private fun productos(vendorId: String) =
-        firestore.collection(ColeccionesFirestore.VENDORS)
-            .document(vendorId)
-            .collection(ColeccionesFirestore.PRODUCTS)
+    private fun normalizarProducto(producto: Product): Product = producto.copy(
+        iconoClave = IconoProducto.normalizar(producto.iconoClave),
+        ingredientes = producto.ingredientes.take(6),
+    )
 
     private suspend fun confirmarEscrituraPendiente(timeoutMs: Long = 8_000L): Boolean {
         return try {
-            withTimeout(timeoutMs) {
-                firestore.waitForPendingWrites().await()
-            }
-            true
+            withTimeoutOrNull(timeoutMs) { baseDeDatos.esperarEscriturasPendientes() } != null
+        } catch (error: CancellationException) {
+            throw error
         } catch (_: Exception) {
             false
         }
@@ -481,6 +257,8 @@ class RepositorioFirestore(
     private suspend fun <T> ejecutar(bloque: suspend () -> T): ResultadoAmbulantitos<T> {
         return try {
             ResultadoAmbulantitos.Exito(bloque())
+        } catch (error: CancellationException) {
+            throw error
         } catch (error: Exception) {
             ResultadoAmbulantitos.Error(mensajeAmigable(error), error)
         }
@@ -502,22 +280,14 @@ class RepositorioFirestore(
     }
 
     companion object {
-        @Volatile
-        private var instancia: RepositorioFirestore? = null
+        private val instancia by lazy { RepositorioFirestore() }
 
-        fun obtener(): RepositorioFirestore {
-            return instancia ?: synchronized(this) {
-                instancia ?: RepositorioFirestore().also { instancia = it }
-            }
-        }
+        fun obtener(): RepositorioFirestore = instancia
 
-        fun correoDesdeUsuario(usuario: String): String {
-            return "${normalizarUsuario(usuario)}@usuarios.ambulantitos.app"
-        }
+        fun correoDesdeUsuario(usuario: String): String =
+            "${normalizarUsuario(usuario)}@usuarios.ambulantitos.app"
 
-        fun normalizarUsuario(usuario: String): String {
-            return usuario.trim().lowercase(Locale.ROOT)
-        }
+        fun normalizarUsuario(usuario: String): String = usuario.trim().lowercase(Locale.ROOT)
 
         private fun horaActual(): String {
             val formato = SimpleDateFormat("HH:mm", Locale("es", "MX"))

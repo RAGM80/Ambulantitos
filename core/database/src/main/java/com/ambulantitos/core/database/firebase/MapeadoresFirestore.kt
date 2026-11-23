@@ -1,4 +1,4 @@
-package com.ambulantitos.core.data.firebase
+package com.ambulantitos.core.database.firebase
 
 import com.ambulantitos.core.domain.EstadoProducto
 import com.ambulantitos.core.domain.FormasPago

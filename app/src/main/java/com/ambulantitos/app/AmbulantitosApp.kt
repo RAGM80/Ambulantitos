@@ -1,7 +1,7 @@
 package com.ambulantitos.app
 
 import android.app.Application
-import com.ambulantitos.core.data.firebase.FirebaseAmbulantitos
+import com.ambulantitos.core.database.firebase.FirebaseAmbulantitos
 
 class AmbulantitosApp : Application() {
     override fun onCreate() {
