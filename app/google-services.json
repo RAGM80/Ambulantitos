@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "631251605268",
+    "project_id": "ambulantitos",
+    "storage_bucket": "ambulantitos.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631251605268:android:60e2628e4e7a1866a0d401",
+        "android_client_info": {
+          "package_name": "com.ambulantitos.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCACV8adHDudhL_a9nluZ53_jBM-9Ke7-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

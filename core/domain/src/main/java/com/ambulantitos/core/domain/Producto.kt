@@ -1,4 +1,3 @@
 package com.ambulantitos.core.domain
 
-class Producto {
-}
+typealias Producto = Product
