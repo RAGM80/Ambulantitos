@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Pantalla de arranque de Ambulantitos-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contenedor_arranque"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFBFE"
+    android:fitsSystemWindows="true">
+    <!--Grupo centrado del logo y el indicador de carga-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <!--Logo de Ambulantitos-->
+        <ImageView
+            android:id="@+id/logo_arranque"
+            android:layout_width="224dp"
+            android:layout_height="80dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo_ambulantitos" />
+        <!--Indicador de carga-->
+        <ProgressBar
+            android:id="@+id/indicador_carga_arranque"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="52dp"
+            android:indeterminate="true"
+            android:indeterminateTint="#352080" />
+    </LinearLayout>
+</FrameLayout>
