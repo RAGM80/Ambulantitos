@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:minHeight="48dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/vendedor_panel_fondo_pedido"
+    android:paddingStart="12dp"
+    android:paddingEnd="4dp">
+
+    <TextView
+        android:id="@+id/vendedor_item_ingrediente_nombre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="#231F26"
+        android:textSize="14sp"
+        tools:text="Maíz" />
+
+    <ImageButton
+        android:id="@+id/vendedor_item_ingrediente_btn_quitar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/vendedor_item_ingrediente_quitar"
+        android:scaleType="center"
+        android:src="@drawable/vendedor_producto_ic_quitar" />
+
+</LinearLayout>

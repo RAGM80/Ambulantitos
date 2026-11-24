@@ -29,4 +29,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
 }

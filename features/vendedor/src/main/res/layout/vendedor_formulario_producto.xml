@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFF9FC">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="4dp"
+        android:paddingEnd="16dp">
+
+        <ImageButton
+            android:id="@+id/vendedor_formulario_producto_btn_volver"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/vendedor_formulario_producto_volver"
+            android:scaleType="center"
+            android:src="@drawable/vendedor_registro_ic_volver" />
+
+        <TextView
+            android:id="@+id/vendedor_formulario_producto_titulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:accessibilityHeading="true"
+            android:text="@string/vendedor_panel_registrar_producto"
+            android:textColor="#231F26"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E8DFE7" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="24dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/vendedor_formulario_producto_icono_titulo"
+                android:textColor="#231F26"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/vendedor_formulario_producto_icono"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/vendedor_producto_fondo_icono"
+                android:padding="16dp"
+                android:scaleType="fitCenter"
+                android:contentDescription="@null"
+                tools:src="@drawable/vendedor_producto_ic_esquite" />
+
+            <Button
+                android:id="@+id/vendedor_formulario_producto_btn_cambiar_icono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:minHeight="48dp"
+                android:background="@drawable/vendedor_panel_fondo_boton_secundario"
+                android:backgroundTint="@null"
+                android:text="@string/vendedor_formulario_producto_cambiar_icono"
+                android:textAllCaps="false"
+                android:textColor="#9E2412"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/vendedor_formulario_producto_icono_seleccionado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:textColor="#706674"
+                android:textSize="12sp"
+                tools:text="Seleccionado: Esquite · Icono incluido" />
+            
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp">
+
+                <EditText
+                    android:id="@+id/vendedor_formulario_producto_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:minHeight="48dp"
+                    android:background="@drawable/vendedor_login_fondo_campo"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:inputType="textCapWords"
+                    android:singleLine="true"
+                    tools:text="Esquite" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="#FFF9FC"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:includeFontPadding="false"
+                    android:labelFor="@id/vendedor_formulario_producto_nombre"
+                    android:text="@string/vendedor_formulario_producto_nombre"
+                    android:textSize="12sp" />
+
+
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <Spinner
+                    android:id="@+id/vendedor_formulario_producto_unidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:minHeight="48dp"
+                    android:background="@drawable/vendedor_login_fondo_campo"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:entries="@array/vendedor_producto_unidades"
+                    android:spinnerMode="dropdown" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="#FFF9FC"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:includeFontPadding="false"
+                    android:labelFor="@id/vendedor_formulario_producto_unidad"
+                    android:text="@string/vendedor_formulario_producto_unidad"
+                    android:textSize="12sp" />
+
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/vendedor_formulario_producto_precio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:minHeight="48dp"
+                    android:background="@drawable/vendedor_login_fondo_campo"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    tools:text="30.00" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="#FFF9FC"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:includeFontPadding="false"
+                    android:labelFor="@id/vendedor_formulario_producto_precio"
+                    android:text="@string/vendedor_formulario_producto_precio"
+                    android:textSize="12sp" />
+
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/vendedor_formulario_producto_existencias"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:minHeight="48dp"
+                    android:background="@drawable/vendedor_login_fondo_campo"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    tools:text="12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="#FFF9FC"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:includeFontPadding="false"
+                    android:labelFor="@id/vendedor_formulario_producto_existencias"
+                    android:text="@string/vendedor_formulario_producto_existencias"
+                    android:textSize="12sp" />
+
+
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/vendedor_formulario_producto_descripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:minHeight="80dp"
+                    android:background="@drawable/vendedor_login_fondo_campo"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine|textCapSentences"
+                    tools:text="Esquite con queso y mayonesa" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="#FFF9FC"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:includeFontPadding="false"
+                    android:labelFor="@id/vendedor_formulario_producto_descripcion"
+                    android:text="@string/vendedor_formulario_producto_descripcion"
+                    android:textSize="12sp" />
+
+
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/vendedor_formulario_producto_marca"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:minHeight="48dp"
+                    android:background="@drawable/vendedor_login_fondo_campo"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:inputType="textCapWords"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="#FFF9FC"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:includeFontPadding="false"
+                    android:labelFor="@id/vendedor_formulario_producto_marca"
+                    android:text="@string/vendedor_formulario_producto_marca"
+                    android:textSize="12sp" />
+
+
+            </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:accessibilityHeading="true"
+                    android:text="@string/vendedor_formulario_producto_ingredientes"
+                    android:textColor="#231F26"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/vendedor_formulario_producto_contador_ingredientes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/vendedor_formulario_producto_contador_ingredientes"
+                    android:textColor="#706674"
+                    android:textSize="12sp"
+                    tools:text="3 de 6" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:gravity="bottom">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp">
+
+                    <EditText
+                        android:id="@+id/vendedor_formulario_producto_nuevo_ingrediente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:minHeight="48dp"
+                        android:background="@drawable/vendedor_login_fondo_campo"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:inputType="textCapWords"
+                        android:singleLine="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="#FFF9FC"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:includeFontPadding="false"
+                        android:labelFor="@id/vendedor_formulario_producto_nuevo_ingrediente"
+                        android:text="@string/vendedor_formulario_producto_nuevo_ingrediente"
+                        android:textSize="12sp" />
+
+                </FrameLayout>
+
+
+
+                <Button
+                    android:id="@+id/vendedor_formulario_producto_btn_agregar_ingrediente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="@drawable/vendedor_login_fondo_boton"
+                    android:backgroundTint="@null"
+                    android:text="@string/vendedor_formulario_producto_agregar_ingrediente"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/vendedor_formulario_producto_lista_ingredientes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/vendedor_item_ingrediente"
+                tools:itemCount="3" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:accessibilityHeading="true"
+                android:text="@string/vendedor_formulario_producto_estado"
+                android:textColor="#231F26"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/vendedor_formulario_producto_btn_en_existencia"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:minHeight="48dp"
+                    android:background="@drawable/vendedor_login_fondo_boton"
+                    android:backgroundTint="@null"
+                    android:text="@string/vendedor_formulario_producto_en_existencia"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+                <Button
+                    android:id="@+id/vendedor_formulario_producto_btn_agotado"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="48dp"
+                    android:background="@drawable/vendedor_panel_fondo_boton_secundario"
+                    android:backgroundTint="@null"
+                    android:text="@string/vendedor_formulario_producto_agotado"
+                    android:textAllCaps="false"
+                    android:textColor="#9E2412"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/vendedor_formulario_producto_btn_guardar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:minHeight="48dp"
+                android:background="@drawable/vendedor_login_fondo_boton"
+                android:backgroundTint="@null"
+                android:text="@string/vendedor_panel_registrar_producto"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/vendedor_formulario_producto_btn_cancelar"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp"
+                android:text="@string/vendedor_formulario_producto_cancelar"
+                android:textAllCaps="false"
+                android:textColor="#9E2412"
+                android:textSize="14sp" />
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

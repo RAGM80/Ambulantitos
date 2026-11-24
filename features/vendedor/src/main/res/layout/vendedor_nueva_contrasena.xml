@@ -74,8 +74,104 @@
                 android:textColor="#9E2412"
                 android:textSize="22sp"
                 android:textStyle="bold" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp">
 
+                <EditText
+                    android:id="@+id/vendedor_nueva_contrasena_campo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:minHeight="48dp"
+                    android:background="@drawable/vendedor_login_fondo_campo"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="48dp"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:autofillHints="newPassword" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="#FFF9FC"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:includeFontPadding="false"
+                    android:labelFor="@id/vendedor_nueva_contrasena_campo"
+                    android:text="@string/vendedor_nueva_contrasena_titulo"
+                    android:textSize="12sp" />
+                <ImageButton
+                    android:id="@+id/vendedor_nueva_contrasena_btn_ojo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="7dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/vendedor_nueva_contrasena_mostrar"
+                    android:scaleType="center"
+                    android:src="@drawable/vendedor_login_ic_ojo" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/vendedor_nueva_contrasena_confirmacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:minHeight="48dp"
+                    android:background="@drawable/vendedor_login_fondo_campo"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="48dp"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:autofillHints="newPassword" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="#FFF9FC"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:includeFontPadding="false"
+                    android:labelFor="@id/vendedor_nueva_contrasena_confirmacion"
+                    android:text="@string/vendedor_nueva_contrasena_confirmar"
+                    android:textSize="12sp" />
+                <ImageButton
+                    android:id="@+id/vendedor_nueva_contrasena_btn_ojo_confirmacion"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="7dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/vendedor_nueva_contrasena_mostrar_confirmacion"
+                    android:scaleType="center"
+                    android:src="@drawable/vendedor_login_ic_ojo" />
+
+            </FrameLayout>
+            <Button
+                android:id="@+id/vendedor_nueva_contrasena_btn_aceptar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:minHeight="48dp"
+                android:background="@drawable/vendedor_login_fondo_boton"
+                android:backgroundTint="@null"
+                android:text="@string/vendedor_nueva_contrasena_aceptar"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </ScrollView>
+
 </LinearLayout>

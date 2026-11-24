@@ -26,4 +26,88 @@
     <string name="vendedor_recuperar_siguiente">Siguiente</string>
     <string name="vendedor_nueva_contrasena_titulo">Nueva contraseña</string>
     <string name="vendedor_nueva_contrasena_volver">Volver</string>
+    <string name="vendedor_nueva_contrasena_mostrar">Mostrar nueva contraseña</string>
+    <string name="vendedor_nueva_contrasena_confirmar">Confirmar contraseña</string>
+    <string name="vendedor_nueva_contrasena_mostrar_confirmacion">Mostrar confirmacion de contraseña</string>
+    <string name="vendedor_nueva_contrasena_aceptar">Aceptar</string>
+    <string name="vendedor_panel_nombre_negocio">Nombre del negocio</string>
+    <string name="vendedor_panel_perfil">Perfil del vendedor</string>
+    <string name="vendedor_panel_modo_local">Modo local P2P activado</string>
+    <string name="vendedor_panel_transmitir_ubicacion">Transmitir ubicacion</string>
+    <string name="vendedor_panel_registrar_producto">Registrar producto</string>
+    <string name="vendedor_panel_mis_productos">Mis productos</string>
+    <string name="vendedor_panel_notificaciones">Notificaciones</string>
+    <string name="vendedor_panel_buscar_pedido">Buscar pedido</string>
+    <string name="vendedor_panel_sin_pedidos">Aún no tienes pedidos nuevos</string>
+    <string name="vendedor_panel_cerrar_sesion">Cerrar sesión</string>
+    <string name="vendedor_productos_titulo">Mis productos</string>
+    <string name="vendedor_productos_volver">Volver</string>
+    <string name="vendedor_productos_indicacion">Toca un producto para consultar</string>
+    <string name="vendedor_productos_sin_productos">Aún no tienes productos</string>
+    <string name="vendedor_productos_sin_productos_indicacion">Registra tu primer producto con su precio e icono.</string>
+    <string name="vendedor_productos_aviso_agotados">Los productos agotados solo los ves tú</string>
+    <string name="vendedor_productos_volver_panel">Volver al panel</string>
+    <string name="vendedor_formulario_producto_volver">Volver</string>
+    <string name="vendedor_formulario_producto_icono_titulo">Icono del producto</string>
+    <string name="vendedor_formulario_producto_cambiar_icono">Cambiar icono</string>
+    <string name="vendedor_formulario_producto_nombre">Nombre del producto</string>
+    <string name="vendedor_formulario_producto_unidad">Unidad de medida</string>
+
+    <string-array name="vendedor_producto_unidades">
+        <item>pieza</item>
+        <item>litro</item>
+        <item>kilogramo</item>
+    </string-array>
+
+    <string name="vendedor_formulario_producto_precio">Precio de venta ($)</string>
+    <string name="vendedor_formulario_producto_existencias">Existencias disponibles</string>
+    <string name="vendedor_formulario_producto_descripcion">Descripción</string>
+    <string name="vendedor_formulario_producto_marca">Marca (opcional)</string>
+    <string name="vendedor_formulario_producto_ingredientes">Ingredientes</string>
+    <string name="vendedor_formulario_producto_contador_ingredientes">0 de 6</string>
+    <string name="vendedor_formulario_producto_nuevo_ingrediente">Nuevo ingrediente</string>
+    <string name="vendedor_formulario_producto_agregar_ingrediente">Agregar</string>
+    <string name="vendedor_formulario_producto_estado">Estado del producto</string>
+    <string name="vendedor_formulario_producto_en_existencia">En existencia</string>
+    <string name="vendedor_formulario_producto_agotado">Agotado</string>
+    <string name="vendedor_item_ingrediente_quitar">Quitar ingrediente</string>
+    <string name="vendedor_formulario_producto_cancelar">Cancelar</string>
+    <string name="vendedor_detalle_producto_titulo">Detalle del producto</string>
+    <string name="vendedor_detalle_producto_etiqueta_unidad">Unidad</string>
+    <string name="vendedor_detalle_producto_etiqueta_existencias">Existencias</string>
+    <string name="vendedor_detalle_producto_etiqueta_estado">Estado</string>
+    <string name="vendedor_detalle_producto_etiqueta_marca">Marca</string>
+    <string name="vendedor_detalle_producto_editar">Editar producto</string>
+    <string name="vendedor_detalle_producto_marcar_agotado">Marcar agotado</string>
+    <string name="vendedor_detalle_producto_eliminar">Eliminar producto</string>
+    <string name="vendedor_selector_iconos_titulo">Elegir icono</string>
+    <string name="vendedor_selector_iconos_indicacion">Elige el icono que represente tu producto.</string>
+    <string name="vendedor_selector_iconos_usar">Usar icono</string>
+    <string name="vendedor_detalle_pedido_titulo">Detalle del pedido</string>
+    <string name="vendedor_detalle_pedido_cliente">Cliente</string>
+    <string name="vendedor_detalle_pedido_producto">Producto</string>
+    <string name="vendedor_detalle_pedido_cantidad">Cantidad</string>
+    <string name="vendedor_detalle_pedido_indicaciones">Indicaciones</string>
+    <string name="vendedor_detalle_pedido_total">Total</string>
+    <string name="vendedor_detalle_pedido_aceptar">Aceptar</string>
+    <string name="vendedor_detalle_pedido_rechazar">Rechazar</string>
+    <string name="vendedor_detalle_pedido_entregar">Marcar entregado</string>
+    <string name="vendedor_detalle_pedido_regresar">Regresar</string>
+    <string name="vendedor_detalle_pedido_mensaje_rechazado">El pedido fue rechazado.</string>
+    <string name="vendedor_dialogo_registrar_titulo">Registrar producto</string>
+    <string name="vendedor_dialogo_registrar_mensaje">¿Registrar %1$s con estos datos y la imagen seleccionada?</string>
+    <string name="vendedor_dialogo_registrar_confirmar">Registrar</string>
+
+    <string name="vendedor_dialogo_eliminar_titulo">Eliminar producto</string>
+    <string name="vendedor_dialogo_eliminar_mensaje">¿Quitar %1$s de tus productos? Dejará de ofrecerse. Sus pedidos anteriores se conservarán.</string>
+    <string name="vendedor_dialogo_eliminar_confirmar">Eliminar</string>
+
+    <string name="vendedor_dialogo_aceptar_titulo">Confirmar aceptación</string>
+    <string name="vendedor_dialogo_aceptar_mensaje">¿Quieres aceptar el pedido %1$s?</string>
+    <string name="vendedor_dialogo_aceptar_confirmar">Sí, aceptar</string>
+
+    <string name="vendedor_dialogo_rechazar_titulo">Confirmar rechazo</string>
+    <string name="vendedor_dialogo_rechazar_mensaje">¿Quieres rechazar el pedido %1$s?</string>
+    <string name="vendedor_dialogo_rechazar_confirmar">Sí, rechazar</string>
+
 </resources>
