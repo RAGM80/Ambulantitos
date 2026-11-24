@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFF9FC">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="4dp"
+        android:paddingEnd="16dp">
+
+        <ImageButton
+            android:id="@+id/vendedor_detalle_pedido_btn_volver"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/vendedor_formulario_producto_volver"
+            android:scaleType="center"
+            android:src="@drawable/vendedor_registro_ic_volver" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:accessibilityHeading="true"
+            android:text="@string/vendedor_detalle_pedido_titulo"
+            android:textColor="#231F26"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E8DFE7" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="24dp">
+
+            <TextView
+                android:id="@+id/vendedor_detalle_pedido_modo_conexion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/vendedor_panel_fondo_modo_local"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="@string/vendedor_panel_modo_local"
+                android:textColor="#9E2412"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:background="@drawable/vendedor_panel_fondo_pedido"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/vendedor_detalle_pedido_numero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:accessibilityHeading="true"
+                    android:textColor="#231F26"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Pedido 1" />
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:columnCount="2"
+                    android:useDefaultMargins="true">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/vendedor_detalle_pedido_cliente"
+                        android:textColor="#706674"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/vendedor_detalle_pedido_cliente"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:gravity="end"
+                        android:textColor="#231F26"
+                        android:textSize="14sp"
+                        tools:text="Juan" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/vendedor_detalle_pedido_producto"
+                        android:textColor="#706674"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/vendedor_detalle_pedido_producto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:gravity="end"
+                        android:textColor="#231F26"
+                        android:textSize="14sp"
+                        tools:text="Esquite" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/vendedor_detalle_pedido_cantidad"
+                        android:textColor="#706674"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/vendedor_detalle_pedido_cantidad"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:gravity="end"
+                        android:textColor="#231F26"
+                        android:textSize="14sp"
+                        tools:text="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/vendedor_detalle_pedido_indicaciones"
+                        android:textColor="#706674"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/vendedor_detalle_pedido_indicaciones"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:gravity="end"
+                        android:textColor="#231F26"
+                        android:textSize="14sp"
+                        tools:text="Sin chile" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/vendedor_detalle_pedido_total"
+                        android:textColor="#706674"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/vendedor_detalle_pedido_total"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:gravity="end"
+                        android:textColor="#9E2412"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="$30.00" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/vendedor_detalle_pedido_estado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/vendedor_panel_fondo_modo_local"
+                android:gravity="center"
+                android:padding="6dp"
+                android:textColor="#9E2412"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="Estado: Pendiente" />
+
+            <TextView
+                android:id="@+id/vendedor_detalle_pedido_mensaje_rechazado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/vendedor_detalle_pedido_mensaje_rechazado"
+                android:textColor="#706674"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/vendedor_detalle_pedido_btn_aceptar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:minHeight="48dp"
+                android:background="@drawable/vendedor_login_fondo_boton"
+                android:backgroundTint="@null"
+                android:text="@string/vendedor_detalle_pedido_aceptar"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/vendedor_detalle_pedido_btn_rechazar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp"
+                android:background="@drawable/vendedor_panel_fondo_boton_secundario"
+                android:backgroundTint="@null"
+                android:text="@string/vendedor_detalle_pedido_rechazar"
+                android:textAllCaps="false"
+                android:textColor="#9E2412"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/vendedor_detalle_pedido_btn_entregar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:minHeight="48dp"
+                android:background="@drawable/vendedor_login_fondo_boton"
+                android:backgroundTint="@null"
+                android:text="@string/vendedor_detalle_pedido_entregar"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/vendedor_detalle_pedido_btn_regresar"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp"
+                android:text="@string/vendedor_detalle_pedido_regresar"
+                android:textAllCaps="false"
+                android:textColor="#9E2412"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

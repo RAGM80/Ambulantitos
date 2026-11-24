@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:orientation="vertical"
+    android:background="@drawable/vendedor_panel_fondo_pedido"
+    android:padding="16dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Gris oscuro para el nombre del cliente -->
+        <TextView
+            android:id="@+id/vendedor_item_pedido_cliente"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#231F26"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Juan" />
+
+        <!-- Gris para la distancia y la hora del pedido -->
+        <TextView
+            android:id="@+id/vendedor_item_pedido_distancia_hora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="#706674"
+            android:textSize="12sp"
+            tools:text="14 m · 14:06" />
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/vendedor_item_pedido_resumen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textColor="#5B505F"
+        android:textSize="14sp"
+        tools:text="1 esquite · Sin chile" />
+    <TextView
+        android:id="@+id/vendedor_item_pedido_estado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="#9E2412"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        tools:text="Pendiente" />
+
+</LinearLayout>

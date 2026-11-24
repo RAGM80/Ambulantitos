@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/vendedor_dialogo_fondo"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/vendedor_dialogo_titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:accessibilityHeading="true"
+        android:textColor="#231F26"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:text="Registrar producto" />
+
+    <TextView
+        android:id="@+id/vendedor_dialogo_mensaje"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:lineSpacingExtra="4dp"
+        android:textColor="#5B505F"
+        android:textSize="14sp"
+        tools:text="¿Registrar Esquite con estos datos y la imagen seleccionada?" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/vendedor_dialogo_btn_cancelar"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="@string/vendedor_formulario_producto_cancelar"
+            android:textAllCaps="false"
+            android:textColor="#706674"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/vendedor_dialogo_btn_confirmar"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:minHeight="48dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textAllCaps="false"
+            android:textColor="#9E2412"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Registrar" />
+
+    </LinearLayout>
+
+</LinearLayout>
