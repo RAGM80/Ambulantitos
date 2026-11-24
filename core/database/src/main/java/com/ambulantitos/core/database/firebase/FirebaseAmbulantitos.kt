@@ -1,4 +1,4 @@
-package com.ambulantitos.core.data.firebase
+package com.ambulantitos.core.database.firebase
 
 import android.content.Context
 import com.google.firebase.FirebaseApp
@@ -17,7 +17,7 @@ object FirebaseAmbulantitos {
         activarCachePersistente()
     }
 
-    fun activarCachePersistente() {
+    internal fun activarCachePersistente() {
         if (persistenciaActivada) return
         synchronized(this) {
             if (persistenciaActivada) return

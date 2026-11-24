@@ -1,12 +1,4 @@
-package com.ambulantitos.core.domain
-
-object ColeccionesFirestore {
-    const val USERS = "users"
-    const val VENDORS = "vendors"
-    const val PRODUCTS = "products"
-    const val ORDERS = "orders"
-    const val USERNAMES = "usernames"
-}
+    package com.ambulantitos.core.domain
 
 object RolUsuario {
     const val CLIENTE = "client"

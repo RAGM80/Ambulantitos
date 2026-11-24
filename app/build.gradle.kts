@@ -54,10 +54,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(project(":features:cliente"))
     implementation(project(":features:vendedor"))
-    implementation(project(":core:data"))
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.firestore)
+    implementation(project(":core:database"))
     implementation(libs.material)
     implementation(libs.androidx.recyclerview)
 }
