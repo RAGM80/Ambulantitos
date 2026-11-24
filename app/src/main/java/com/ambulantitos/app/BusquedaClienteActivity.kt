@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import com.ambulantitos.feature.cliente.R as ClienteR
 import com.google.android.material.appbar.MaterialToolbar
+import android.content.Intent
+import android.view.View
 
 class BusquedaClienteActivity : ComponentActivity() {
 
@@ -21,7 +23,14 @@ class BusquedaClienteActivity : ComponentActivity() {
             //Cierra esta pantalla y vuelve al login desde donde entramos
             finish()
         }
+        //Busca el botón Ver productos que está en la tarjeta del vendedor
+        val botonVerProductos = findViewById<View>(ClienteR.id.boton_ver_productos)
 
+        botonVerProductos.setOnClickListener {
+            //Abre la pantalla de Productos disponibles
+            val intent = Intent(this, ProductosClienteActivity::class.java)
+            startActivity(intent)
+        }
         //Deja espacio para las barras del teléfono y el teclado
         aplicarBordes()
     }

@@ -78,4 +78,12 @@
     <string name="cliente_interrumpido_ayuda">Acércate al vendedor o vuelve a conectarte para comprobar el envío.</string>
     <string name="cliente_catalogo_vacio_titulo">Sin productos disponibles</string>
     <string name="cliente_catalogo_vacio_mensaje">El vendedor no tiene productos en existencia por ahora.</string>
+    <string name="cliente_demo_nombre_esquite">Esquite</string>
+    <string name="cliente_demo_precio_esquite">$30</string>
+    <string name="cliente_demo_precio_unitario">Precio: %1$s</string>
+    <string name="cliente_demo_numero_pedido">Pedido 1</string>
+    <string name="cliente_demo_vendedor">Elotitos</string>
+    <string name="cliente_demo_sin_indicaciones">Sin indicaciones</string>
+    <string name="cliente_demo_resumen_pedido">%1$s - %2$s</string>
+    <string name="cliente_demo_productos_pedido">1 esquite</string>
 </resources>
