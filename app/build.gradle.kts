@@ -55,4 +55,6 @@ dependencies {
     implementation(project(":features:cliente"))
     implementation(project(":features:vendedor"))
     implementation(project(":core:database"))
+    implementation(libs.material)
+    implementation(libs.androidx.recyclerview)
 }

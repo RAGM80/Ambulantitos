@@ -3,6 +3,8 @@ package com.ambulantitos.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import android.content.Intent
+import android.view.View
 
 class LoginActivity : ComponentActivity() {
 
@@ -19,10 +21,21 @@ class LoginActivity : ComponentActivity() {
         //Revisa el rol recibido para elegir qué pantalla mostrar
         when (rol) {
             ROL_CLIENTE -> {
-                //Muestra pantalla_login_cliente.xml del módulo cliente
+                //Carga el formulario del cliente
                 setContentView(
                     com.ambulantitos.feature.cliente.R.layout.pantalla_login_cliente
                 )
+
+                //Busca el botón Iniciar sesión en el XML del cliente
+                val botonEntrar = findViewById<View>(
+                    com.ambulantitos.feature.cliente.R.id.btn_login_cliente
+                )
+
+                botonEntrar.setOnClickListener {
+                    //Abre Vendedores cercanos para probar la continuidad de interfaces
+                    val intent = Intent(this, BusquedaClienteActivity::class.java)
+                    startActivity(intent)
+                }
             }
 
             ROL_VENDEDOR -> {

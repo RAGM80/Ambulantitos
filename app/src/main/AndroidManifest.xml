@@ -30,6 +30,29 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
+        <activity
+            android:name=".BusquedaClienteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductosClienteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CantidadClienteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RevisionPedidoClienteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PedidoRecibidoClienteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MisPedidosClienteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".DetallePedidoClienteActivity"
+            android:exported="false" />
     </application>
+
 
 </manifest>
