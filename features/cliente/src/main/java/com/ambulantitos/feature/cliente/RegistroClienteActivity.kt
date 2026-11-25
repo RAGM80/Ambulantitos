@@ -1,4 +1,4 @@
-package com.ambulantitos.app
+package com.ambulantitos.feature.cliente
 
 import android.os.Bundle
 import android.view.View
@@ -14,7 +14,7 @@ class RegistroClienteActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        //Muestra el formulario de registro que ya diseñamos
+        //Muestra el formulario de registro del cliente
         setContentView(ClienteR.layout.pantalla_registro_cliente)
 
         //La flecha cierra el formulario y vuelve al inicio de sesión
@@ -22,26 +22,19 @@ class RegistroClienteActivity : ComponentActivity() {
         barra.setNavigationOnClickListener {
             finish()
         }
-        //Busca los recuadros de Usuario y Contraseña
+
+        //Busca los recuadros donde se muestran los errores y el botón Crear cuenta
         val campoUsuario = findViewById<TextInputLayout>(ClienteR.id.contenedor_usuario)
         val campoContrasena = findViewById<TextInputLayout>(ClienteR.id.contenedor_contrasena)
         val botonCrear = findViewById<View>(ClienteR.id.boton_crear_cuenta)
 
         botonCrear.setOnClickListener {
-            //Lee lo que escribió el cliente al tocar Crear cuenta
+            //Lee los dos campos al tocar Crear cuenta
             val usuario = campoUsuario.editText?.text?.toString().orEmpty().trim()
             val contrasena = campoContrasena.editText?.text?.toString().orEmpty()
 
-            //Muestra el aviso de Usuario vacío o demasiado corto debajo del campo
-            campoUsuario.error = if (usuario.isEmpty()) {
-                getString(ClienteR.string.cliente_registro_campo_obligatorio)
-            } else if (usuario.length < 3) {
-                getString(ClienteR.string.cliente_registro_usuario_corto)
-            } else {
-                null
-            }
-
-            //Revisa si el usuario está vacío, es corto o tiene caracteres inválidos
+            //Revisa que el usuario esté lleno y tenga al menos 3 caracteres
+            //Solo permite letras de la A a la Z, números y guion bajo
             campoUsuario.error = if (usuario.isEmpty()) {
                 getString(ClienteR.string.cliente_registro_campo_obligatorio)
             } else if (usuario.length < 3) {
@@ -52,14 +45,25 @@ class RegistroClienteActivity : ComponentActivity() {
                 null
             }
 
-            //Si hay un aviso, termina la acción del botón y deja abierto el formulario
+            //Revisa que la contraseña esté llena y tenga al menos 6 caracteres
+            campoContrasena.error = if (contrasena.isBlank()) {
+                getString(ClienteR.string.cliente_registro_campo_obligatorio)
+            } else if (contrasena.length < 6) {
+                getString(ClienteR.string.cliente_registro_contrasena_corta)
+            } else {
+                null
+            }
+
+            //Después de revisar los dos campos, deja abierto el formulario si hay un error
             if (campoUsuario.error != null || campoContrasena.error != null) {
                 return@setOnClickListener
             }
 
-            //Si los dos campos pasan la prueba, vuelve al login de la demo
+            //En la demo, vuelve al login cuando los dos campos son válidos
             finish()
         }
+
+        //Deja espacio para las barras del teléfono y el teclado
         aplicarBordes()
     }
 }

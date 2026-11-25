@@ -53,9 +53,6 @@
             android:name=".DetallePedidoClienteActivity"
             android:exported="false" />
         <activity
-            android:name=".RegistroClienteActivity"
-            android:exported="false" />
-        <activity
             android:name=".RecuperarCuentaClienteActivity"
             android:exported="false" />
 
