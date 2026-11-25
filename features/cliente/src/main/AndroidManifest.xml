@@ -1,4 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <application>
+        <activity
+            android:name="com.ambulantitos.feature.cliente.LoginClienteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.ambulantitos.feature.cliente.RegistroClienteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.ambulantitos.feature.cliente.RecuperarCuentaClienteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.ambulantitos.feature.cliente.NuevaContrasenaClienteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.ambulantitos.feature.cliente.BusquedaClienteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.ambulantitos.feature.cliente.ProductosClienteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.ambulantitos.feature.cliente.CantidadClienteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.ambulantitos.feature.cliente.RevisionPedidoClienteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.ambulantitos.feature.cliente.PedidoRecibidoClienteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.ambulantitos.feature.cliente.MisPedidosClienteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.ambulantitos.feature.cliente.DetallePedidoClienteActivity"
+            android:exported="false" />
+    </application>
+
 </manifest>
