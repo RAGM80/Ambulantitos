@@ -59,12 +59,12 @@ class RevisionPedidoClienteActivity : ComponentActivity() {
             val intent = Intent(this, PedidoRecibidoClienteActivity::class.java)
             intent.putExtra(EXTRA_INDICACIONES, indicaciones)
             startActivity(intent)
+        }
+
         aplicarBordes()
     }
 
-}
     companion object {
-        //Nombre que usamos para enviar y recibir las indicaciones
         const val EXTRA_INDICACIONES = "indicaciones"
     }
 }
