@@ -31,24 +31,6 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.ambulantitos.feature.cliente.BusquedaClienteActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.ambulantitos.feature.cliente.ProductosClienteActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.ambulantitos.feature.cliente.CantidadClienteActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.ambulantitos.feature.cliente.RevisionPedidoClienteActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.ambulantitos.feature.cliente.PedidoRecibidoClienteActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.ambulantitos.feature.cliente.MisPedidosClienteActivity"
-            android:exported="false" />
-        <activity
             android:name=".RecuperarCuentaClienteActivity"
             android:exported="false" />
 
