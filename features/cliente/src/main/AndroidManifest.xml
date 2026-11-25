@@ -4,5 +4,9 @@
         <activity
             android:name="com.ambulantitos.feature.cliente.RegistroClienteActivity"
             android:exported="false" />
+        <activity
+            android:name="com.ambulantitos.feature.cliente.DetallePedidoClienteActivity"
+            android:exported="false" />
     </application>
+
 </manifest>

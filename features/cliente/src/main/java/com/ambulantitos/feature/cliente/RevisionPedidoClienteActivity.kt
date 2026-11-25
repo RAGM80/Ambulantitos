@@ -1,4 +1,4 @@
-package com.ambulantitos.app
+package com.ambulantitos.feature.cliente
 
 import android.os.Bundle
 import android.view.View
