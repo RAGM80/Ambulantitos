@@ -27,12 +27,25 @@ class RegistroClienteActivity : ComponentActivity() {
         val campoUsuario = findViewById<TextInputLayout>(ClienteR.id.contenedor_usuario)
         val campoContrasena = findViewById<TextInputLayout>(ClienteR.id.contenedor_contrasena)
         val botonCrear = findViewById<View>(ClienteR.id.boton_crear_cuenta)
+        val campoNombres = findViewById<TextInputLayout>(ClienteR.id.contenedor_nombres)
+        val campoApellidoPaterno = findViewById<TextInputLayout>(ClienteR.id.contenedor_apellido_paterno)
 
         botonCrear.setOnClickListener {
             //Lee los dos campos al tocar Crear cuenta
             val usuario = campoUsuario.editText?.text?.toString().orEmpty().trim()
             val contrasena = campoContrasena.editText?.text?.toString().orEmpty()
-
+            val nombres = campoNombres.editText?.text?.toString().orEmpty()
+            val apellidoPaterno = campoApellidoPaterno.editText?.text?.toString().orEmpty()
+            campoNombres.error = if (nombres.isBlank()) {
+                getString(ClienteR.string.cliente_registro_campo_obligatorio)
+            } else {
+                null
+            }
+            campoApellidoPaterno.error = if (apellidoPaterno.isBlank()) {
+                getString(ClienteR.string.cliente_registro_campo_obligatorio)
+            } else {
+                null
+            }
             //Revisa que el usuario esté lleno y tenga al menos 3 caracteres
             //Solo permite letras de la A a la Z, números y guion bajo
             campoUsuario.error = if (usuario.isEmpty()) {
@@ -55,7 +68,7 @@ class RegistroClienteActivity : ComponentActivity() {
             }
 
             //Después de revisar los dos campos, deja abierto el formulario si hay un error
-            if (campoUsuario.error != null || campoContrasena.error != null) {
+            if (campoNombres.error != null || campoApellidoPaterno.error != null || campoUsuario.error != null || campoContrasena.error != null) {
                 return@setOnClickListener
             }
 
