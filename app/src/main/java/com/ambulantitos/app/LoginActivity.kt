@@ -21,19 +21,35 @@ class LoginActivity : ComponentActivity() {
         //Revisa el rol recibido para elegir qué pantalla mostrar
         when (rol) {
             ROL_CLIENTE -> {
-                //Carga el formulario del cliente
+                //Carga el formulario de inicio de sesión del cliente
                 setContentView(
                     com.ambulantitos.feature.cliente.R.layout.pantalla_login_cliente
                 )
 
-                //Busca el botón Iniciar sesión en el XML del cliente
+                //Abre Vendedores cercanos al tocar Iniciar sesión
                 val botonEntrar = findViewById<View>(
                     com.ambulantitos.feature.cliente.R.id.btn_login_cliente
                 )
-
                 botonEntrar.setOnClickListener {
-                    //Abre Vendedores cercanos para probar la continuidad de interfaces
                     val intent = Intent(this, BusquedaClienteActivity::class.java)
+                    startActivity(intent)
+                }
+
+                //Abre Registro al tocar Crear cuenta nueva
+                val crearCuenta = findViewById<View>(
+                    com.ambulantitos.feature.cliente.R.id.tv_registro_cliente
+                )
+                crearCuenta.setOnClickListener {
+                    val intent = Intent(this, RegistroClienteActivity::class.java)
+                    startActivity(intent)
+                }
+
+                //Abre Recuperar cuenta al tocar Olvidé mi contraseña
+                val botonRecuperar = findViewById<View>(
+                    com.ambulantitos.feature.cliente.R.id.boton_recuperar_cuenta_cliente
+                )
+                botonRecuperar.setOnClickListener {
+                    val intent = Intent(this, RecuperarCuentaClienteActivity::class.java)
                     startActivity(intent)
                 }
             }
