@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import com.ambulantitos.feature.cliente.R as ClienteR
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.textfield.TextInputLayout
 
 class RegistroClienteActivity : ComponentActivity() {
 
@@ -21,13 +22,44 @@ class RegistroClienteActivity : ComponentActivity() {
         barra.setNavigationOnClickListener {
             finish()
         }
-
-        //En esta prueba Crear cuenta también vuelve al inicio de sesión
+        //Busca los recuadros de Usuario y Contraseña
+        val campoUsuario = findViewById<TextInputLayout>(ClienteR.id.contenedor_usuario)
+        val campoContrasena = findViewById<TextInputLayout>(ClienteR.id.contenedor_contrasena)
         val botonCrear = findViewById<View>(ClienteR.id.boton_crear_cuenta)
+
         botonCrear.setOnClickListener {
+            //Lee lo que escribió el cliente al tocar Crear cuenta
+            val usuario = campoUsuario.editText?.text?.toString().orEmpty().trim()
+            val contrasena = campoContrasena.editText?.text?.toString().orEmpty()
+
+            //Muestra el aviso de Usuario vacío o demasiado corto debajo del campo
+            campoUsuario.error = if (usuario.isEmpty()) {
+                getString(ClienteR.string.cliente_registro_campo_obligatorio)
+            } else if (usuario.length < 3) {
+                getString(ClienteR.string.cliente_registro_usuario_corto)
+            } else {
+                null
+            }
+
+            //Revisa si el usuario está vacío, es corto o tiene caracteres inválidos
+            campoUsuario.error = if (usuario.isEmpty()) {
+                getString(ClienteR.string.cliente_registro_campo_obligatorio)
+            } else if (usuario.length < 3) {
+                getString(ClienteR.string.cliente_registro_usuario_corto)
+            } else if (!usuario.matches(Regex("[a-zA-Z0-9_]+"))) {
+                getString(ClienteR.string.cliente_registro_usuario_formato)
+            } else {
+                null
+            }
+
+            //Si hay un aviso, termina la acción del botón y deja abierto el formulario
+            if (campoUsuario.error != null || campoContrasena.error != null) {
+                return@setOnClickListener
+            }
+
+            //Si los dos campos pasan la prueba, vuelve al login de la demo
             finish()
         }
-
         aplicarBordes()
     }
 }
