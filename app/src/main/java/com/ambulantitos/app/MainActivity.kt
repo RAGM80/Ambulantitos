@@ -56,8 +56,15 @@ class MainActivity : ComponentActivity() {
             startActivity(intent)
         }
 
-        //Deja pendiente el botón hasta que se conecte el inicio de sesión de Vendedor
-        botonVendedor.isEnabled = false
+        //Abre el inicio de sesión del módulo Vendedor
+        botonVendedor.setOnClickListener {
+            val abrirVendedor = Intent(
+                this,
+                com.ambulantitos.feature.vendedor.LoginVendedorActivity::class.java
+            )
+
+            startActivity(abrirVendedor)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

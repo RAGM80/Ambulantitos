@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import android.content.Intent
 import android.view.View
+import com.ambulantitos.feature.cliente.BusquedaClienteActivity
 
 class LoginActivity : ComponentActivity() {
 
