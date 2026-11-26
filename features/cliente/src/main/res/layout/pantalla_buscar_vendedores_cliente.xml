@@ -127,20 +127,23 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/boton_busqueda_ble"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/cliente_busqueda_ble" />
+                android:text="@string/cliente_buscar_vendedores"
+                android:textAllCaps="false" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/boton_busqueda_p2p"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:text="@string/cliente_busqueda_p2p" />
+                android:enabled="false"
+                android:text="@string/cliente_busqueda_p2p"
+                android:textAllCaps="false" />
         </LinearLayout>
 
         <!--Contenedor del mapa-->
@@ -156,6 +159,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:cardBackgroundColor="#EEE7F7"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"

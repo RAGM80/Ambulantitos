@@ -6,7 +6,6 @@ import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCallback
 import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothProfile
-import android.bluetooth.BluetoothStatusCodes
 import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanFilter
@@ -77,29 +76,24 @@ class ClienteBle(context: Context) {
     }
 
     @Suppress("DEPRECATION") // Esta sobrecarga de connectGatt también está disponible en Android 13.
-    fun enviar(vendedor: VendedorCercano, mensaje: String, terminado: (Boolean) -> Unit) {
+    fun identificar(vendedor: VendedorCercano, terminado: (String?) -> Unit) {
         detenerBusqueda()
         cerrarConexion()
-        val bytes = mensaje.toByteArray(Charsets.UTF_8)
-        if (bytes.size !in 1..PracticaBle.MAX_BYTES_MENSAJE) {
-            terminado(false)
-            return
-        }
-        fun concluir(exito: Boolean) {
+        fun concluir(vendorId: String?) {
             cerrarConexion()
-            terminado(exito)
+            terminado(vendorId)
         }
         val callback = object : BluetoothGattCallback() {
             override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
                 principal.post {
                     if (conexion !== gatt) return@post
                     if (status != BluetoothGatt.GATT_SUCCESS || newState == BluetoothProfile.STATE_DISCONNECTED) {
-                        concluir(false)
+                        concluir(null)
                     } else if (newState == BluetoothProfile.STATE_CONNECTED) {
                         try {
-                            if (!gatt.discoverServices()) concluir(false)
+                            if (!gatt.discoverServices()) concluir(null)
                         } catch (_: SecurityException) {
-                            concluir(false)
+                            concluir(null)
                         }
                     }
                 }
@@ -109,43 +103,45 @@ class ClienteBle(context: Context) {
                 principal.post {
                     if (conexion !== gatt) return@post
                     val caracteristica = gatt.getService(PracticaBle.servicio.uuid)
-                        ?.getCharacteristic(PracticaBle.mensaje)
+                        ?.getCharacteristic(PracticaBle.identidadVendedor)
                     if (status != BluetoothGatt.GATT_SUCCESS || caracteristica == null) {
-                        concluir(false)
+                        concluir(null)
                         return@post
                     }
                     try {
-                        val resultado = gatt.writeCharacteristic(
-                            caracteristica, bytes, BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT,
-                        )
-                        if (resultado != BluetoothStatusCodes.SUCCESS) concluir(false)
+                        if (!gatt.readCharacteristic(caracteristica)) concluir(null)
                     } catch (_: SecurityException) {
-                        concluir(false)
+                        concluir(null)
                     }
                 }
             }
 
-            override fun onCharacteristicWrite(
-                gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic, status: Int,
+            override fun onCharacteristicRead(
+                gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic,
+                value: ByteArray, status: Int,
             ) {
                 principal.post {
-                    if (conexion === gatt && characteristic.uuid == PracticaBle.mensaje) {
-                        concluir(status == BluetoothGatt.GATT_SUCCESS)
+                    if (conexion !== gatt) return@post
+                    val vendorId = value.toString(Charsets.UTF_8).takeIf {
+                        status == BluetoothGatt.GATT_SUCCESS &&
+                            characteristic.uuid == PracticaBle.identidadVendedor &&
+                            PracticaBle.formatoVendorId.matches(it)
                     }
+                    concluir(vendorId)
                 }
             }
         }
         try {
             conexion = vendedor.dispositivo.connectGatt(app, false, callback, BluetoothDevice.TRANSPORT_LE)
         } catch (_: SecurityException) {
-            concluir(false)
+            concluir(null)
             return
         }
         if (conexion == null) {
-            concluir(false)
+            concluir(null)
             return
         }
-        limiteConexion = Runnable { concluir(false) }.also { principal.postDelayed(it, 12_000L) }
+        limiteConexion = Runnable { concluir(null) }.also { principal.postDelayed(it, 12_000L) }
     }
 
     private fun detenerBusqueda() {

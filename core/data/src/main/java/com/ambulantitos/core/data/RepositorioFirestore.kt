@@ -158,10 +158,9 @@ class RepositorioFirestore(
         vendedorNombre: String,
         items: List<OrderItem>,
         modoLocalP2P: Boolean = false,
-        timeoutConfirmacionMs: Long = 8_000L,
     ): ResultadoAmbulantitos<Order> = ejecutar {
         require(items.isNotEmpty()) { "El pedido no tiene productos." }
-        val pedido = baseDeDatos.crearPedido(
+        baseDeDatos.crearPedido(
             Order(
                 clientId = clientId,
                 clienteNombre = clienteNombre,
@@ -169,17 +168,12 @@ class RepositorioFirestore(
                 vendedorNombre = vendedorNombre,
                 items = items,
                 total = items.sumOf { it.subtotal },
+                estadoEnvio = EstadoEnvio.CONFIRMADO,
                 modoLocalP2P = modoLocalP2P,
                 horaCreacion = horaActual(),
                 createdAt = System.currentTimeMillis(),
             ),
         )
-        if (confirmarEscrituraPendiente(timeoutConfirmacionMs)) {
-            baseDeDatos.confirmarEnvioPedido(pedido.orderId)
-            pedido.copy(estadoEnvio = EstadoEnvio.CONFIRMADO)
-        } else {
-            pedido
-        }
     }
 
     fun escucharPedidosCliente(clientId: String): Flow<List<Order>> = baseDeDatos.escucharPedidosCliente(clientId)

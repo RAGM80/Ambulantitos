@@ -26,6 +26,26 @@ service cloud.firestore {
       return datos.formaPago == 'Pago en efectivo al entregar';
     }
 
+    function registrarNumeroPedido(vendorId) {
+      let pedidoId = request.resource.data.get('ultimoPedidoId', '');
+      let pedido = /databases/$(database)/documents/orders/$(pedidoId);
+      return autenticado()
+        && pedidoId is string && pedidoId.matches('^[A-Za-z0-9]{20}$')
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['contadorPedidos', 'ultimoPedidoId'])
+        && request.resource.data.contadorPedidos == resource.data.get('contadorPedidos', 0) + 1
+        && !exists(pedido)
+        && getAfter(pedido).data.clientId == uid()
+        && getAfter(pedido).data.vendorId == vendorId
+        && getAfter(pedido).data.numeroPedido == request.resource.data.contadorPedidos;
+    }
+
+    function numeroPedidoAsignado(vendorId, orderId, numeroPedido) {
+      let negocio = /databases/$(database)/documents/vendors/$(vendorId);
+      return getAfter(negocio).data.ultimoPedidoId == orderId
+        && getAfter(negocio).data.contadorPedidos == numeroPedido
+        && numeroPedido == get(negocio).data.get('contadorPedidos', 0) + 1;
+    }
+
     match /users/{userId} {
       // El perfil contiene datos personales; cada usuario solo puede consultar el suyo.
       allow read: if esDueno(userId);
@@ -39,7 +59,21 @@ service cloud.firestore {
         && request.resource.data.role == resource.data.role;
       allow delete: if false;
     }
+match /clientesPublicos/{usuario} {
+  //Permite consultar un nombre exacto
+  allow get: if true;
+  allow list: if false;
 
+  //El cliente solo puede crear la marca de su propia cuenta
+  allow create: if autenticado()
+    && request.auth.token.email == usuario + '@usuarios.ambulantitos.app'
+    && request.resource.data.keys().hasOnly(['registrado'])
+    && request.resource.data.registrado == true
+    && getAfter(/databases/$(database)/documents/usernames/$(usuario)).data.userId == uid()
+    && getAfter(/databases/$(database)/documents/usernames/$(usuario)).data.role == 'client';
+
+  allow update, delete: if false;
+}
     match /usernames/{usuario} {
       // El registro consulta directamente el nombre elegido dentro de una transacción.
       // Se permite get para detectar colisiones, pero nunca listar el directorio completo.
@@ -56,9 +90,10 @@ service cloud.firestore {
         && request.resource.data.ownerUserId == uid()
         && request.resource.data.vendorId == vendorId
         && request.resource.data.formaPagoPorDefecto == 'Pago en efectivo al entregar';
-      allow update: if esVendedorDelNegocio(vendorId)
+      allow update: if (esVendedorDelNegocio(vendorId)
         && request.resource.data.ownerUserId == resource.data.ownerUserId
-        && request.resource.data.formaPagoPorDefecto == 'Pago en efectivo al entregar';
+        && request.resource.data.formaPagoPorDefecto == 'Pago en efectivo al entregar')
+        || registrarNumeroPedido(vendorId);
       allow delete: if false;
 
       match /products/{productId} {
@@ -78,6 +113,8 @@ service cloud.firestore {
       allow create: if autenticado()
         && request.resource.data.clientId == uid()
         && request.resource.data.orderId == orderId
+        && get(/databases/$(database)/documents/users/$(uid())).data.role == 'client'
+        && numeroPedidoAsignado(request.resource.data.vendorId, orderId, request.resource.data.numeroPedido)
         && formaPagoValida(request.resource.data)
         && request.resource.data.estado == 'Pendiente'
         && request.resource.data.estadoEnvio in ['confirmado', 'sin_confirmar'];
@@ -89,11 +126,12 @@ service cloud.firestore {
         && (
           (
             resource.data.clientId == uid()
-            && request.resource.data.estado == resource.data.estado
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['estadoEnvio'])
             && request.resource.data.estadoEnvio in ['confirmado', 'sin_confirmar']
           )
           || (
             esVendedorDelNegocio(resource.data.vendorId)
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['estado'])
             && request.resource.data.estado in ['Pendiente', 'Aceptado', 'Rechazado', 'Entregado']
           )
         );

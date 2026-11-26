@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cliente_busqueda_p2p">Buscar por Wi-Fi Direct</string>
+    <string name="cliente_busqueda_p2p">Catálogo por P2P</string>
     <string name="cliente_p2p_permiso">Permite el acceso a dispositivos cercanos para buscar por Wi-Fi Direct.</string>
     <string name="cliente_p2p_buscando">Buscando por Wi-Fi Direct…</string>
     <string name="cliente_p2p_selecciona">Elige el teléfono del vendedor</string>
     <string name="cliente_p2p_sin_resultados">No se encontraron dispositivos</string>
     <string name="cliente_p2p_dispositivo">Dispositivo %1$s</string>
     <string name="cliente_p2p_conectando">Conectando. Acepta la invitación si Android la muestra.</string>
-    <string name="cliente_p2p_enviando">Grupo conectado. Enviando mensaje…</string>
-    <string name="cliente_p2p_confirmado">Mensaje recibido por Wi-Fi Direct</string>
-    <string name="cliente_p2p_error">No se confirmó el mensaje. Revisa que el vendedor tenga abierta la conexión.</string>
+    <string name="cliente_p2p_recibiendo">Recibiendo el catálogo del vendedor…</string>
+    <string name="cliente_p2p_error">No se pudo recibir el catálogo. Revisa el modo local del vendedor.</string>
+    <string name="cliente_p2p_otro_vendedor">Ese teléfono no corresponde al vendedor seleccionado.</string>
+    <string name="cliente_p2p_sin_catalogo">El vendedor aún no tiene un catálogo listo para compartir.</string>
     <string name="cliente_p2p_reintentar">Volver a buscar</string>
 </resources>

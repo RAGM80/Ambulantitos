@@ -67,26 +67,24 @@ class WifiDirect(context: Context) : AutoCloseable {
     suspend fun buscar(actualizar: (List<Dispositivo>) -> Unit) {
         verificarSinGrupo()
         buscando = true
-        try {
-            ejecutar("buscar dispositivos") { servicio().discoverPeers(canalActual(), it) }
-            repeat(10) {
-                delay(1_000L)
-                val dispositivos = withTimeoutOrNull(2_000L) {
-                    suspendCancellableCoroutine { espera ->
-                        servicio().requestPeers(canalActual()) { lista ->
-                            if (espera.isActive) {
-                                espera.resume(lista.deviceList
-                                    .filter { it.status != WifiP2pDevice.UNAVAILABLE }
-                                    .map { Dispositivo(it.deviceName, it.deviceAddress) }
-                                    .sortedBy { it.nombre })
-                            }
+        ejecutar("buscar dispositivos") { servicio().discoverPeers(canalActual(), it) }
+        // Al terminar de actualizar la lista, Android aún necesita los dispositivos para conectar.
+        // La búsqueda del sistema se detiene al iniciar la conexión o al cerrar la sesión.
+        repeat(10) {
+            delay(1_000L)
+            val dispositivos = withTimeoutOrNull(2_000L) {
+                suspendCancellableCoroutine { espera ->
+                    servicio().requestPeers(canalActual()) { lista ->
+                        if (espera.isActive) {
+                            espera.resume(lista.deviceList
+                                .filter { it.status != WifiP2pDevice.UNAVAILABLE }
+                                .map { Dispositivo(it.deviceName, it.deviceAddress) }
+                                .sortedBy { it.nombre })
                         }
                     }
                 }
-                if (dispositivos != null) actualizar(dispositivos)
             }
-        } finally {
-            detenerBusqueda()
+            if (dispositivos != null) actualizar(dispositivos)
         }
     }
 
@@ -130,20 +128,25 @@ class WifiDirect(context: Context) : AutoCloseable {
     }
 
     private suspend fun ejecutar(operacion: String, llamada: (WifiP2pManager.ActionListener) -> Unit) {
-        val exito = withTimeoutOrNull(6_000L) {
-            suspendCancellableCoroutine { espera ->
+        withTimeoutOrNull(6_000L) {
+            suspendCancellableCoroutine<Unit> { espera ->
                 llamada(object : WifiP2pManager.ActionListener {
                     override fun onSuccess() {
-                        if (espera.isActive) espera.resume(true)
+                        if (espera.isActive) espera.resume(Unit)
                     }
 
                     override fun onFailure(reason: Int) {
-                        if (espera.isActive) espera.resume(false)
+                        if (!espera.isActive) return
+                        val detalle = when (reason) {
+                            WifiP2pManager.BUSY -> "Android tiene Wi-Fi Direct ocupado. Espera un momento y vuelve a intentar."
+                            WifiP2pManager.P2P_UNSUPPORTED -> "El teléfono reporta que Wi-Fi Direct no está disponible."
+                            else -> "Android rechazó la solicitud (código $reason)."
+                        }
+                        espera.resumeWith(Result.failure(Error("No se pudo $operacion por Wi-Fi Direct. $detalle")))
                     }
                 })
             }
-        }
-        if (exito != true) throw Error("No se pudo $operacion por Wi-Fi Direct. Intenta de nuevo.")
+        } ?: throw Error("Android no respondió al intentar $operacion por Wi-Fi Direct.")
     }
 
     private fun detenerBusqueda() {

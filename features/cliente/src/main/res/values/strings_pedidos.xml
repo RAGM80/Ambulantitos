@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cliente_catalogo_cargando">Cargando catálogo…</string>
+    <string name="cliente_catalogo_vacio">Este vendedor aún no tiene productos disponibles.</string>
+    <string name="cliente_catalogo_error">No se pudo cargar el catálogo. Vuelve a intentarlo.</string>
+    <string name="cliente_catalogo_local">Catálogo recibido por Wi-Fi Direct. Necesitas Internet para enviar el pedido.</string>
+    <string name="cliente_pedido_cargando">Cargando pedido…</string>
+    <string name="cliente_pedidos_cargando">Cargando tus pedidos…</string>
+    <string name="cliente_pedidos_vacio">Todavía no tienes pedidos.</string>
+    <string name="cliente_pedidos_error">No se pudieron cargar los pedidos.</string>
+    <string name="cliente_pedido_no_encontrado">No se pudo consultar este pedido.</string>
+    <string name="cliente_pedido_numero">Pedido %1$d</string>
+    <string name="cliente_pedido_linea">%1$d × %2$s</string>
+    <string name="cliente_pedido_estado">Estado: %1$s</string>
+    <string name="cliente_pedido_enviando">Enviando pedido…</string>
+    <string name="cliente_pedido_ingresa">Inicia sesión como cliente para enviar el pedido.</string>
+    <string name="cliente_pedido_error_envio">No se pudo enviar el pedido. %1$s</string>
+    <string name="cliente_pedido_por_enviar">Pedido por enviar</string>
+    <string name="cliente_pedido_sin_indicaciones">Sin indicaciones</string>
+    <string name="cliente_pedido_negocio">%1$s · %2$s</string>
+    <string name="cliente_pedido_precio_unitario">Precio: %1$s</string>
+</resources>
