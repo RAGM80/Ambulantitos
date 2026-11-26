@@ -1,5 +1,6 @@
-package com.ambulantitos.app
+package com.ambulantitos.feature.cliente
 
+import android.R
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -33,7 +34,7 @@ class CantidadClienteActivity : ComponentActivity() {
 
         //Coloca una imagen de muestra en el espacio del producto
         val imagen = findViewById<ImageView>(ClienteR.id.imagen_producto_cantidad_cliente)
-        imagen.setImageResource(android.R.drawable.ic_menu_gallery)
+        imagen.setImageResource(R.drawable.ic_menu_gallery)
 
         //Llena los espacios del precio, la cantidad inicial y el total de prueba
         val precioDemo = getString(ClienteR.string.cliente_demo_precio_esquite)

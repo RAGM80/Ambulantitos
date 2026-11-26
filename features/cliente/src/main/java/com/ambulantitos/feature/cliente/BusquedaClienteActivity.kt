@@ -1,4 +1,4 @@
-package com.ambulantitos.app
+package com.ambulantitos.feature.cliente
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -29,6 +29,14 @@ class BusquedaClienteActivity : ComponentActivity() {
         botonVerProductos.setOnClickListener {
             //Abre la pantalla de Productos disponibles
             val intent = Intent(this, ProductosClienteActivity::class.java)
+            startActivity(intent)
+        }
+        //Busca el botón Mis pedidos en Vendedores cercanos
+        val botonMisPedidos = findViewById<View>(ClienteR.id.boton_mis_pedidos)
+
+        botonMisPedidos.setOnClickListener {
+            //Abre la misma lista que usamos desde Pedido enviado
+            val intent = Intent(this, MisPedidosClienteActivity::class.java)
             startActivity(intent)
         }
         //Deja espacio para las barras del teléfono y el teclado

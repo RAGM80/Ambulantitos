@@ -1,5 +1,6 @@
-package com.ambulantitos.app
+package com.ambulantitos.feature.cliente
 
+import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -67,7 +68,7 @@ private class ProductoPruebaAdapter(
 
     override fun onBindViewHolder(holder: FilaProducto, position: Int) {
         //Coloca los datos de prueba y conecta el toque en toda la tarjeta
-        holder.imagen.setImageResource(android.R.drawable.ic_menu_gallery)
+        holder.imagen.setImageResource(R.drawable.ic_menu_gallery)
         holder.nombre.setText(ClienteR.string.cliente_demo_nombre_esquite)
         holder.precio.setText(ClienteR.string.cliente_demo_precio_esquite)
         holder.itemView.setOnClickListener {

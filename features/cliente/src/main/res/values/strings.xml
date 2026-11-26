@@ -86,4 +86,10 @@
     <string name="cliente_demo_sin_indicaciones">Sin indicaciones</string>
     <string name="cliente_demo_resumen_pedido">%1$s - %2$s</string>
     <string name="cliente_demo_productos_pedido">1 esquite</string>
+    <string name="cliente_registro_campo_obligatorio">Este campo es obligatorio</string>
+    <string name="cliente_registro_usuario_corto">El usuario debe tener al menos 3 caracteres</string>
+    <string name="cliente_registro_contrasena_corta">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="cliente_registro_usuario_formato">Usa solo letras de la A a la Z, números o guion bajo</string>
+    <string name="cliente_registro_solo_letras">Escribe solo letras y espacios</string>
+    <string name="cliente_registro_celular_solo_numeros">Escribe solo números, sin espacios ni guiones</string>
 </resources>
