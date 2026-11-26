@@ -115,7 +115,12 @@
     <string name="vendedor_detalle_producto_reponer">Reponer existencias</string>
     <string name="vendedor_login_ocultar_contrasena">Ocultar contrasena</string>
     <string name="vendedor_registro_ocultar_contrasena">Ocultar contraseña</string>
-    <string name="vendedor_registro_error_obligatorio">Completa este campo</string>
+    <string name="vendedor_registro_error_obligatorio">Este campo es obligatorio</string>
+    <string name="vendedor_registro_error_solo_letras">Escribe solo letras y espacios</string>
+    <string name="vendedor_registro_error_usuario_corto">El usuario debe tener al menos 3 caracteres</string>
+    <string name="vendedor_registro_error_usuario_formato">Usa solo letras de la A a la Z, números o guion bajo</string>
+    <string name="vendedor_registro_error_contrasena_corta">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="vendedor_registro_error_contrasena_larga">La contraseña debe tener entre 6 y 12 caracteres</string>
     <string name="vendedor_registro_cuenta_creada">Cuenta creada correctamente</string>
     <string name="vendedor_panel_reintentar_perfil">Reintentar</string>
     <string name="vendedor_item_producto_existencias_formato">Existencias: %1$d</string>
