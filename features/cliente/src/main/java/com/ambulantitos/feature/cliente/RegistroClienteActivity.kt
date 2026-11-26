@@ -3,12 +3,17 @@ package com.ambulantitos.feature.cliente
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.lifecycle.lifecycleScope
+import com.ambulantitos.core.data.RepositorioFirestore
+import com.ambulantitos.core.data.ResultadoAmbulantitos
 import com.ambulantitos.feature.cliente.R as ClienteR
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputLayout
 import java.util.Calendar
+import kotlinx.coroutines.launch
 
 class RegistroClienteActivity : ComponentActivity() {
 
@@ -39,7 +44,7 @@ class RegistroClienteActivity : ComponentActivity() {
         )
         val botonCrear = findViewById<View>(ClienteR.id.boton_crear_cuenta)
 
-        // La fecha se llena desde el calendario.
+        //La fecha se llena desde el calendario
         val entradaFecha = campoFecha.editText
         entradaFecha?.keyListener = null
         entradaFecha?.setOnClickListener {
@@ -54,6 +59,9 @@ class RegistroClienteActivity : ComponentActivity() {
             validarNombre(campoApellidoPaterno)
             validarNombre(campoApellidoMaterno)
 
+            val nombres = campoNombres.editText?.text?.toString().orEmpty()
+            val apellidoPaterno = campoApellidoPaterno.editText?.text?.toString().orEmpty()
+            val apellidoMaterno = campoApellidoMaterno.editText?.text?.toString().orEmpty()
             val fecha = campoFecha.editText?.text?.toString().orEmpty()
             val celular = campoCelular.editText?.text?.toString().orEmpty()
             val usuario = campoUsuario.editText?.text?.toString().orEmpty().trim()
@@ -91,7 +99,7 @@ class RegistroClienteActivity : ComponentActivity() {
                 null
             }
 
-            // Si algún campo tiene un aviso, deja abierto el formulario.
+            //Si hay un error, deja abierto el formulario
             if (
                 campoNombres.error != null ||
                 campoApellidoPaterno.error != null ||
@@ -104,8 +112,43 @@ class RegistroClienteActivity : ComponentActivity() {
                 return@setOnClickListener
             }
 
-            // En la demo, vuelve al login cuando todos los campos pasan.
-            finish()
+            //Desactiva el botón mientras se guarda la cuenta
+            val repositorio = RepositorioFirestore.obtener()
+            botonCrear.isEnabled = false
+
+            lifecycleScope.launch {
+                val resultado = repositorio.registrarCliente(
+                    nombres = nombres,
+                    apellidoPaterno = apellidoPaterno,
+                    apellidoMaterno = apellidoMaterno,
+                    fechaNacimiento = fecha,
+                    numeroCelular = celular,
+                    usuario = usuario,
+                    contrasena = contrasena
+                )
+
+                when (resultado) {
+                    is ResultadoAmbulantitos.Exito -> {
+                        //Cierra la sesión automática antes de volver al login
+                        repositorio.cerrarSesion()
+                        Toast.makeText(
+                            this@RegistroClienteActivity,
+                            "Cuenta creada",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    }
+
+                    is ResultadoAmbulantitos.Error -> {
+                        botonCrear.isEnabled = true
+                        Toast.makeText(
+                            this@RegistroClienteActivity,
+                            resultado.mensaje,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
         }
 
         aplicarBordes()
@@ -114,7 +157,7 @@ class RegistroClienteActivity : ComponentActivity() {
     private fun validarNombre(campo: TextInputLayout) {
         val texto = campo.editText?.text?.toString().orEmpty().trim()
 
-        // \p{L} representa letras, incluidas las vocales con acento y la ñ.
+        //Permite letras con acentos y espacios entre palabras
         val letrasYEspacios = Regex("""(?:\p{L}\p{M}*)+(?: +(?:\p{L}\p{M}*)+)*""")
 
         campo.error = if (texto.isEmpty()) {
@@ -132,7 +175,7 @@ class RegistroClienteActivity : ComponentActivity() {
         val calendario = DatePickerDialog(
             this,
             { _, anio, mes, dia ->
-                // Android cuenta los meses desde cero.
+                //Android cuenta los meses desde cero
                 val diaTexto = dia.toString().padStart(2, '0')
                 val mesTexto = (mes + 1).toString().padStart(2, '0')
                 campoFecha.editText?.setText("$diaTexto/$mesTexto/$anio")
