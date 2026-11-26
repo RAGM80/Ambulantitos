@@ -34,7 +34,8 @@
             android:text="@string/vendedor_panel_registrar_producto"
             android:textColor="#231F26"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="@string/vendedor_formulario_producto_editar_titulo" />
 
     </LinearLayout>
 
@@ -66,6 +67,7 @@
                 android:textColor="#231F26"
                 android:textSize="14sp"
                 android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/vendedor_formulario_producto_icono"
                 android:layout_width="96dp"
@@ -73,10 +75,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/vendedor_producto_fondo_icono"
-                android:padding="16dp"
-                android:scaleType="fitCenter"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
                 android:contentDescription="@null"
-                tools:src="@drawable/vendedor_producto_ic_esquite" />
+                tools:src="@android:drawable/ic_menu_gallery" />
 
             <Button
                 android:id="@+id/vendedor_formulario_producto_btn_cambiar_icono"
@@ -97,10 +99,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
+                android:text="@string/vendedor_formulario_producto_imagen_indicacion"
                 android:textColor="#706674"
-                android:textSize="12sp"
-                tools:text="Seleccionado: Esquite · Icono incluido" />
-            
+                android:textSize="12sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -438,7 +439,8 @@
                 android:text="@string/vendedor_panel_registrar_producto"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="@string/vendedor_formulario_producto_guardar_cambios" />
 
             <Button
                 android:id="@+id/vendedor_formulario_producto_btn_cancelar"

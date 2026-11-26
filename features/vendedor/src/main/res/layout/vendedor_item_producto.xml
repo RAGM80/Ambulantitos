@@ -9,14 +9,15 @@
     android:background="@drawable/vendedor_panel_fondo_pedido"
     android:padding="12dp">
     <ImageView
-        android:id="@+id/vendedor_item_producto_icono"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="12dp"
-        android:padding="8dp"
-        android:scaleType="fitCenter"
+        android:id="@+id/vendedor_detalle_producto_icono"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/vendedor_producto_fondo_icono"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
         android:contentDescription="@null"
-        tools:src="@drawable/vendedor_producto_ic_esquite" />
+        tools:src="@android:drawable/ic_menu_gallery" />
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"

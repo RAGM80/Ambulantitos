@@ -48,8 +48,8 @@
     <string name="vendedor_productos_aviso_agotados">Los productos agotados solo los ves tú</string>
     <string name="vendedor_productos_volver_panel">Volver al panel</string>
     <string name="vendedor_formulario_producto_volver">Volver</string>
-    <string name="vendedor_formulario_producto_icono_titulo">Icono del producto</string>
-    <string name="vendedor_formulario_producto_cambiar_icono">Cambiar icono</string>
+    <string name="vendedor_formulario_producto_icono_titulo">Imagen del producto</string>
+    <string name="vendedor_formulario_producto_cambiar_icono">Cambiar Imagen</string>
     <string name="vendedor_formulario_producto_nombre">Nombre del producto</string>
     <string name="vendedor_formulario_producto_unidad">Unidad de medida</string>
 
@@ -109,5 +109,13 @@
     <string name="vendedor_dialogo_rechazar_titulo">Confirmar rechazo</string>
     <string name="vendedor_dialogo_rechazar_mensaje">¿Quieres rechazar el pedido %1$s?</string>
     <string name="vendedor_dialogo_rechazar_confirmar">Sí, rechazar</string>
+    <string name="vendedor_formulario_producto_imagen_indicacion">Selecciona una imagen de tu producto.</string>
+    <string name="vendedor_formulario_producto_editar_titulo">Editar producto</string>
+    <string name="vendedor_formulario_producto_guardar_cambios">Guardar cambios</string>
+    <string name="vendedor_detalle_producto_reponer">Reponer existencias</string>
+    <string name="vendedor_login_ocultar_contrasena">Ocultar contrasena</string>
+    <string name="vendedor_registro_ocultar_contrasena">Ocultar contraseña</string>
+    <string name="vendedor_registro_error_obligatorio">Completa este campo</string>
+    <string name="vendedor_registro_cuenta_creada">Cuenta creada correctamente</string>
 
 </resources>

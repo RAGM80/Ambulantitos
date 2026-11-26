@@ -39,10 +39,14 @@ class LoginActivity : ComponentActivity() {
             }
 
             ROL_VENDEDOR -> {
-                //Muestra vendedor_login.xml del módulo vendedor
-                setContentView(
-                    com.ambulantitos.feature.vendedor.R.layout.vendedor_login
+                val abrirVendedor = Intent(
+                    this,
+                    com.ambulantitos.feature.vendedor.LoginVendedorActivity::class.java
                 )
+                startActivity(abrirVendedor)
+
+                finish()
+                return
             }
 
             else -> {

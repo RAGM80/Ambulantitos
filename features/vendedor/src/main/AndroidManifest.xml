@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <application>
+        <activity
+            android:name="com.ambulantitos.feature.vendedor.LoginVendedorActivity"
+            android:exported="false" />
+
+        <activity android:name="com.ambulantitos.feature.vendedor.RegistroVendedorActivity"
+            android:exported="false"/>
+        <activity
+            android:name="com.ambulantitos.feature.vendedor.RecuperarCuentaVendedorActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.ambulantitos.feature.vendedor.PanelVendedorActivity"
+            android:exported="false" />
+    </application>
+
 </manifest>

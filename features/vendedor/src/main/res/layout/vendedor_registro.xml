@@ -257,6 +257,7 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="48dp"
                 android:inputType="textPassword"
+                android:maxLength="12"
                 android:singleLine="true"
                 android:autofillHints="newPassword" />
         <TextView
