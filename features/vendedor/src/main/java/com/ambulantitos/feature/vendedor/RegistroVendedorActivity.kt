@@ -94,25 +94,25 @@ class RegistroVendedorActivity : ComponentActivity() {
                 }
             )
         }
-            val campoNombres = findViewById<EditText>(
-                R.id.vendedor_registro_nombres
-            )
+        val campoNombres = findViewById<EditText>(
+            R.id.vendedor_registro_nombres
+        )
 
-            val campoApellidoPaterno = findViewById<EditText>(
-                R.id.vendedor_registro_apellido_paterno
-            )
+        val campoApellidoPaterno = findViewById<EditText>(
+            R.id.vendedor_registro_apellido_paterno
+        )
 
-            val campoApellidoMaterno = findViewById<EditText>(
-                R.id.vendedor_registro_apellido_materno
-            )
+        val campoApellidoMaterno = findViewById<EditText>(
+            R.id.vendedor_registro_apellido_materno
+        )
 
-            val campoNegocio = findViewById<EditText>(
-                R.id.vendedor_registro_nombre_negocio
-            )
+        val campoNegocio = findViewById<EditText>(
+            R.id.vendedor_registro_nombre_negocio
+        )
 
-            val campoUsuario = findViewById<EditText>(
-                R.id.vendedor_registro_usuario
-            )
+        val campoUsuario = findViewById<EditText>(
+            R.id.vendedor_registro_usuario
+        )
 
         val modeloRegistro = ViewModelProvider(this)[
             RegistroVendedorViewModel::class.java
@@ -126,7 +126,49 @@ class RegistroVendedorActivity : ComponentActivity() {
             if (avisoRegistroVisible) {
                 return@setOnClickListener
             }
-            val camposRegistro = listOf(
+
+            validarNombre(campoNombres)
+            validarNombre(campoApellidoPaterno)
+            validarNombre(campoApellidoMaterno)
+
+            val fecha = campoFecha.text.toString()
+            val nombreNegocio = campoNegocio.text.toString()
+            val usuario = campoUsuario.text.toString().trim()
+            val contrasena = campoContrasena.text.toString()
+
+            campoFecha.error = if (ValidadorRegistroVendedor.validarCampoObligatorio(fecha)) {
+                null
+            } else {
+                getString(R.string.vendedor_registro_error_obligatorio)
+            }
+
+            campoNegocio.error = if (ValidadorRegistroVendedor.validarCampoObligatorio(nombreNegocio)) {
+                null
+            } else {
+                getString(R.string.vendedor_registro_error_obligatorio)
+            }
+
+            campoUsuario.error = when (ValidadorRegistroVendedor.validarUsuario(usuario)) {
+                ErrorUsuarioRegistro.OBLIGATORIO ->
+                    getString(R.string.vendedor_registro_error_obligatorio)
+                ErrorUsuarioRegistro.CORTO ->
+                    getString(R.string.vendedor_registro_error_usuario_corto)
+                ErrorUsuarioRegistro.FORMATO_INVALIDO ->
+                    getString(R.string.vendedor_registro_error_usuario_formato)
+                null -> null
+            }
+
+            campoContrasena.error = when (ValidadorRegistroVendedor.validarContrasena(contrasena)) {
+                ErrorContrasenaRegistro.OBLIGATORIO ->
+                    getString(R.string.vendedor_registro_error_obligatorio)
+                ErrorContrasenaRegistro.CORTA ->
+                    getString(R.string.vendedor_registro_error_contrasena_corta)
+                ErrorContrasenaRegistro.LARGA ->
+                    getString(R.string.vendedor_registro_error_contrasena_larga)
+                null -> null
+            }
+
+            val primerCampoConError = listOf(
                 campoNombres,
                 campoApellidoPaterno,
                 campoApellidoMaterno,
@@ -134,28 +176,21 @@ class RegistroVendedorActivity : ComponentActivity() {
                 campoNegocio,
                 campoUsuario,
                 campoContrasena
-            )
+            ).firstOrNull { it.error != null }
 
-            val campoVacio = camposRegistro.firstOrNull {
-                it.text.toString().isBlank()
-            }
-
-            if (campoVacio != null) {
-                campoVacio.error = getString(
-                    R.string.vendedor_registro_error_obligatorio
-                )
-                campoVacio.requestFocus()
+            if (primerCampoConError != null) {
+                primerCampoConError.requestFocus()
                 return@setOnClickListener
             }
 
             modeloRegistro.registrar(
-                nombres = campoNombres.text.toString(),
-                apellidoPaterno = campoApellidoPaterno.text.toString(),
-                apellidoMaterno = campoApellidoMaterno.text.toString(),
-                fechaNacimiento = campoFecha.text.toString(),
-                nombreNegocio = campoNegocio.text.toString(),
-                usuario = campoUsuario.text.toString(),
-                contrasena = campoContrasena.text.toString()
+                nombres = campoNombres.text.toString().trim(),
+                apellidoPaterno = campoApellidoPaterno.text.toString().trim(),
+                apellidoMaterno = campoApellidoMaterno.text.toString().trim(),
+                fechaNacimiento = fecha.trim(),
+                nombreNegocio = nombreNegocio.trim(),
+                usuario = usuario,
+                contrasena = contrasena
             )
         }
 
@@ -216,6 +251,16 @@ class RegistroVendedorActivity : ComponentActivity() {
 
         botonVolver.setOnClickListener {
             finish()
+        }
+    }
+
+    private fun validarNombre(campo: EditText) {
+        campo.error = when (ValidadorRegistroVendedor.validarNombre(campo.text.toString())) {
+            ErrorNombreRegistro.OBLIGATORIO ->
+                getString(R.string.vendedor_registro_error_obligatorio)
+            ErrorNombreRegistro.SOLO_LETRAS ->
+                getString(R.string.vendedor_registro_error_solo_letras)
+            null -> null
         }
     }
 }
