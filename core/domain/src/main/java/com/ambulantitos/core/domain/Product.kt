@@ -12,9 +12,11 @@ data class Product(
     val descripcion: String = "",
     val marca: String? = null,
     val ingredientes: List<String> = emptyList(),
+    val imagenUrl: String? = null,
+    val imagenIdPublico: String? = null,
 ) {
     val visibleEnCatalogoCliente: Boolean
         get() = activo &&
-            estado == EstadoProducto.EN_EXISTENCIA &&
-            existencias > 0
+                estado == EstadoProducto.EN_EXISTENCIA &&
+                existencias > 0
 }

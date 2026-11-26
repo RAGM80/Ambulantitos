@@ -59,7 +59,8 @@
             android:layout_height="wrap_content"
             android:text="@string/vendedor_productos_indicacion"
             android:textColor="#706674"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:id="@+id/vendedor_productos_indicacion"/>
         <Button
             android:id="@+id/vendedor_productos_btn_registrar"
             android:layout_width="match_parent"

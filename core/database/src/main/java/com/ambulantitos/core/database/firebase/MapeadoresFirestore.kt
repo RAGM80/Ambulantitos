@@ -107,6 +107,8 @@ internal fun Product.aMapaFirestore(): Map<String, Any?> {
         "activo" to activo,
         "descripcion" to descripcion,
         "marca" to marca,
+        "imagenUrl" to imagenUrl,
+        "imagenIdPublico" to imagenIdPublico,
         "ingredientes" to ingredientesLimitados,
     )
 }
@@ -125,6 +127,8 @@ internal fun DocumentSnapshot.aProduct(): Product? {
         activo = boolean("activo", predeterminado = true),
         descripcion = string("descripcion").orEmpty(),
         marca = string("marca"),
+        imagenUrl = string("imagenUrl"),
+        imagenIdPublico = string("imagenIdPublico"),
         ingredientes = ingredientesCrudos
             ?.mapNotNull { it as? String }
             ?.map { it.trim() }

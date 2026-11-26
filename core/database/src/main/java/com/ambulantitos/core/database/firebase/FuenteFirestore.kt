@@ -9,6 +9,7 @@ import com.ambulantitos.core.domain.User
 import com.ambulantitos.core.domain.Vendor
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
@@ -65,6 +66,16 @@ class FuenteFirestore {
     suspend fun listarCatalogoCliente(vendorId: String): List<Product> =
         catalogoCliente(vendorId).get().await().aProductos()
 
+    suspend fun obtenerProducto(vendorId: String, productId: String): Product? =
+        productos(vendorId).document(productId).get().await().aProduct()
+
+    fun escucharProducto(vendorId: String, productId: String): Flow<Product?> = callbackFlow {
+        val registro = productos(vendorId).document(productId).addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
+            if (error != null) close(error) else if (snapshot != null && !snapshot.metadata.hasPendingWrites()) trySend(snapshot.aProduct())
+        }
+        awaitClose { registro.remove() }
+    }
+
     suspend fun crearProducto(vendorId: String, producto: Product): Product {
         val coleccion = productos(vendorId)
         val referencia = if (producto.productId.isBlank()) {
@@ -77,9 +88,26 @@ class FuenteFirestore {
         return guardado
     }
 
-    suspend fun editarProducto(vendorId: String, producto: Product) {
-        productos(vendorId).document(producto.productId)
-            .set(producto.aMapaFirestore(), SetOptions.merge()).await()
+    suspend fun editarProducto(
+        vendorId: String,
+        producto: Product,
+        existenciasEsperadas: Int? = null
+    ): Product {
+        val referencia = productos(vendorId).document(producto.productId)
+        return firestore.runTransaction { transaccion ->
+            val actual = transaccion.get(referencia).aProduct()
+                ?: error("El producto ya no existe.")
+            verificarCondicion(actual.activo) { "El producto ya fue eliminado del catálogo." }
+            verificarCondicion(existenciasEsperadas == null || actual.existencias == existenciasEsperadas) {
+                "Las existencias cambiaron mientras editabas. Abre el producto de nuevo para actualizarlas."
+            }
+            val guardado = producto.copy(
+                activo = actual.activo,
+                estado = if (producto.existencias <= 0) EstadoProducto.AGOTADO else producto.estado
+            )
+            transaccion.set(referencia, guardado.aMapaFirestore(), SetOptions.merge())
+            guardado
+        }.await()
     }
 
     suspend fun marcarProductoAgotado(vendorId: String, productId: String) {

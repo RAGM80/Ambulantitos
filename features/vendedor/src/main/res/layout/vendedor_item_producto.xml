@@ -13,6 +13,7 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="12dp"
         android:background="@drawable/vendedor_producto_fondo_icono"
         android:clipToOutline="true"
         android:scaleType="centerCrop"

@@ -43,6 +43,28 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#E8DFE7" />
+    <TextView
+        android:id="@+id/vendedor_panel_error_perfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:accessibilityLiveRegion="polite"
+        android:textColor="#9E2412"
+        android:textSize="14sp"
+        android:visibility="gone" />
+    <Button
+        android:id="@+id/vendedor_panel_btn_reintentar_perfil"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:minHeight="48dp"
+        android:text="@string/vendedor_panel_reintentar_perfil"
+        android:textAllCaps="false"
+        android:textColor="#9E2412"
+        android:visibility="gone" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -58,8 +80,8 @@
             android:paddingTop="16dp"
             android:paddingBottom="24dp">
 
-            <TextView
-                android:id="@+id/vendedor_panel_modo_local"
+            <Button
+                android:id="@+id/vendedor_panel_practica_ble"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/vendedor_panel_fondo_modo_local"
@@ -68,11 +90,20 @@
                 android:paddingEnd="12dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
-                android:text="@string/vendedor_panel_modo_local"
+                android:text="@string/vendedor_practica_ble"
+                android:enabled="false"
+                android:minHeight="48dp"
                 android:textColor="#9E2412"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
+            <Button
+                android:id="@+id/vendedor_panel_practica_p2p"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:enabled="false"
+                android:text="@string/vendedor_practica_p2p" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/vendedor_panel_switch_ubicacion"

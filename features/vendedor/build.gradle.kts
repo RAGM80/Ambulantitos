@@ -29,8 +29,12 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
+    implementation(project(":core:network"))
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.coil)
+    implementation(libs.coil.network.okhttp)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

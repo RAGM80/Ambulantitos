@@ -121,6 +121,28 @@
                 app:cornerRadius="24dp"
                 app:strokeWidth="0dp" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/boton_busqueda_ble"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cliente_busqueda_ble" />
+
+            <Button
+                android:id="@+id/boton_busqueda_p2p"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/cliente_busqueda_p2p" />
+        </LinearLayout>
+
         <!--Contenedor del mapa-->
         <FrameLayout
             android:id="@+id/contenedor_mapa"
