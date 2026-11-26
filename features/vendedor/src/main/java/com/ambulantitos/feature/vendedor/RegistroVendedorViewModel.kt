@@ -7,7 +7,6 @@ import com.ambulantitos.core.data.ResultadoAmbulantitos
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import com.ambulantitos.core.domain.ValidadorNombre
 
 class RegistroVendedorViewModel : ViewModel() {
 
@@ -46,21 +45,74 @@ class RegistroVendedorViewModel : ViewModel() {
             apellidoPaterno,
             apellidoMaterno
         ).all { valor ->
-            ValidadorNombre.esValido(valor)
+            ValidadorRegistroVendedor.validarNombre(valor) == null
         }
 
         if (!nombresValidos) {
             estadoInterno.value = EstadoRegistroVendedor.Error(
-                mensaje = "Los nombres y apellidos solo admiten letras, " +
-                        "espacios, guiones y apóstrofos."
+                mensaje = "Los nombres y apellidos solo admiten letras y espacios."
             )
             return
         }
-        if (contrasena.length !in 6..12) {
+
+        if (
+            !ValidadorRegistroVendedor.validarCampoObligatorio(fechaNacimiento) ||
+            !ValidadorRegistroVendedor.validarCampoObligatorio(nombreNegocio)
+        ) {
             estadoInterno.value = EstadoRegistroVendedor.Error(
-                mensaje = "La contraseña debe tener entre 6 y 12 caracteres."
+                mensaje = "Completa todos los campos obligatorios."
             )
             return
+        }
+
+        when (ValidadorRegistroVendedor.validarUsuario(usuario)) {
+            ErrorUsuarioRegistro.OBLIGATORIO -> {
+                estadoInterno.value = EstadoRegistroVendedor.Error(
+                    mensaje = "Este campo es obligatorio."
+                )
+                return
+            }
+
+            ErrorUsuarioRegistro.CORTO -> {
+                estadoInterno.value = EstadoRegistroVendedor.Error(
+                    mensaje = "El usuario debe tener al menos 3 caracteres."
+                )
+                return
+            }
+
+            ErrorUsuarioRegistro.FORMATO_INVALIDO -> {
+                estadoInterno.value = EstadoRegistroVendedor.Error(
+                    mensaje = "Usa solo letras de la A a la Z, números o guion bajo."
+                )
+                return
+            }
+
+            null -> Unit
+        }
+
+        when (ValidadorRegistroVendedor.validarContrasena(contrasena)) {
+            ErrorContrasenaRegistro.OBLIGATORIO -> {
+                estadoInterno.value = EstadoRegistroVendedor.Error(
+                    mensaje = "Este campo es obligatorio."
+                )
+                return
+            }
+
+            ErrorContrasenaRegistro.CORTA -> {
+                estadoInterno.value = EstadoRegistroVendedor.Error(
+                    mensaje = "La contraseña debe tener al menos 6 caracteres."
+                )
+                return
+            }
+
+            ErrorContrasenaRegistro.LARGA -> {
+                estadoInterno.value = EstadoRegistroVendedor.Error(
+                    mensaje = "La contraseña debe tener entre 6 y 12 caracteres."
+                )
+                return
+            }
+
+            null -> Unit
         }
         estadoInterno.value = EstadoRegistroVendedor.Cargando
 
