@@ -2,70 +2,56 @@ package com.ambulantitos.feature.cliente
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
-import com.ambulantitos.feature.cliente.R as ClienteR
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.ambulantitos.core.data.RepositorioFirestore
+import com.ambulantitos.core.domain.EstadoPedido
 import com.google.android.material.appbar.MaterialToolbar
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 
 class DetallePedidoClienteActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val orderId = intent.getStringExtra(EXTRA_ORDER_ID)
+        if (orderId.isNullOrBlank()) {
+            finish()
+            return
+        }
         enableEdgeToEdge()
-
-        //Carga el diseño del detalle del pedido
-        setContentView(ClienteR.layout.pantalla_detalle_pedido_cliente)
-
-        //Muestra los mismos datos de prueba de las pantallas anteriores
-        findViewById<TextView>(ClienteR.id.tv_numero_pedido_detalle)
-            .setText(ClienteR.string.cliente_demo_numero_pedido)
-
-        findViewById<TextView>(ClienteR.id.tv_vendedor_detalle)
-            .setText(ClienteR.string.cliente_demo_vendedor)
-
-        findViewById<TextView>(ClienteR.id.tv_producto_detalle)
-            .setText(ClienteR.string.cliente_demo_nombre_esquite)
-
-        findViewById<TextView>(ClienteR.id.tv_cantidad_detalle)
-            .text = 1.toString()
-
-        findViewById<TextView>(ClienteR.id.tv_total_detalle)
-            .setText(ClienteR.string.cliente_demo_precio_esquite)
-
-        //Lee las indicaciones que mandó Mis pedidos
-        val indicaciones = intent.getStringExtra(EXTRA_INDICACIONES).orEmpty()
-
-        //Muestra Sin indicaciones si el cliente dejó el campo vacío
-        findViewById<TextView>(ClienteR.id.tv_indicaciones_detalle).text =
-            indicaciones.ifBlank {
-                getString(ClienteR.string.cliente_demo_sin_indicaciones)
-            }
-
-        //Muestra Pendiente como estado del pedido de prueba
-        findViewById<TextView>(ClienteR.id.tv_estado_pedido_detalle)
-            .setText(ClienteR.string.cliente_detalle_estado_pendiente)
-
-        findViewById<TextView>(ClienteR.id.tv_mensaje_estado_detalle)
-            .setText(ClienteR.string.cliente_detalle_mensaje_pendiente)
-
-        //La flecha cierra el detalle y vuelve a Mis pedidos
-        val barra = findViewById<MaterialToolbar>(ClienteR.id.barra_detalle_pedido_cliente)
-        barra.setNavigationOnClickListener {
-            finish()
-        }
-
-        //El botón Volver a pedidos también cierra el detalle
-        val botonVolver = findViewById<View>(ClienteR.id.btn_volver_pedidos_cliente)
-        botonVolver.setOnClickListener {
-            finish()
-        }
-
+        setContentView(R.layout.pantalla_detalle_pedido_cliente)
+        findViewById<MaterialToolbar>(R.id.barra_detalle_pedido_cliente).setNavigationOnClickListener { finish() }
+        findViewById<View>(R.id.btn_volver_pedidos_cliente).setOnClickListener { finish() }
+        texto(R.id.tv_mensaje_estado_detalle, getString(R.string.cliente_pedido_cargando))
         aplicarBordes()
-    }
 
-    companion object {
-        //Usa la misma clave con la que Mis pedidos manda las indicaciones
-        const val EXTRA_INDICACIONES = "indicaciones"
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                RepositorioFirestore.obtener().escucharPedido(orderId)
+                    .catch { emit(null) }
+                    .collect { pedido ->
+                        if (pedido == null) {
+                            texto(R.id.tv_mensaje_estado_detalle, getString(R.string.cliente_pedido_no_encontrado))
+                            return@collect
+                        }
+                        texto(R.id.tv_numero_pedido_detalle, tituloPedido(pedido))
+                        texto(R.id.tv_vendedor_detalle, pedido.vendedorNombre)
+                        texto(R.id.tv_producto_detalle, pedido.items.joinToString("\n") { it.producto })
+                        texto(R.id.tv_cantidad_detalle, pedido.items.joinToString("\n") { it.cantidad.toString() })
+                        texto(R.id.tv_total_detalle, dinero(pedido.total))
+                        texto(R.id.tv_indicaciones_detalle, pedido.items.joinToString("\n") {
+                            it.indicaciones.ifBlank { getString(R.string.cliente_pedido_sin_indicaciones) }
+                        })
+                        texto(R.id.tv_estado_pedido_detalle, getString(R.string.cliente_pedido_estado, pedido.estado))
+                        texto(R.id.tv_mensaje_estado_detalle, when {
+                            pedido.estado == EstadoPedido.PENDIENTE -> getString(R.string.cliente_detalle_mensaje_pendiente)
+                            else -> ""
+                        })
+                    }
+            }
+        }
     }
 }

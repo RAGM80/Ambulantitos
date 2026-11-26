@@ -124,8 +124,19 @@ class FuenteFirestore {
         val orderRef = firestore.collection(ORDERS).document()
         return firestore.runTransaction { transaccion ->
             val numeroPedido = (transaccion.get(vendorRef).getLong("contadorPedidos") ?: 0L).toInt() + 1
-            val guardado = pedido.copy(orderId = orderRef.id, numeroPedido = numeroPedido)
-            transaccion.update(vendorRef, "contadorPedidos", numeroPedido)
+            val catalogo = productos(pedido.vendorId)
+            val items = pedido.items.groupBy { it.productId }.flatMap { (id, lineas) ->
+                val producto = transaccion.get(catalogo.document(id)).aProduct()
+                verificarCondicion(
+                    producto != null && producto.visibleEnCatalogoCliente &&
+                        lineas.all { it.cantidad > 0 && it.precioUnitario == producto.precio } &&
+                        lineas.sumOf { it.cantidad.toLong() } <= producto.existencias
+                ) { "Cambió el precio o la disponibilidad de ${lineas.first().producto}. Vuelve al catálogo." }
+                val actual = requireNotNull(producto)
+                lineas.map { it.copy(producto = actual.nombre, iconoClave = actual.iconoClave) }
+            }
+            val guardado = pedido.copy(orderId = orderRef.id, numeroPedido = numeroPedido, items = items)
+            transaccion.update(vendorRef, mapOf("contadorPedidos" to numeroPedido, "ultimoPedidoId" to orderRef.id))
             transaccion.set(orderRef, guardado.aMapaFirestore())
             guardado
         }.await()
@@ -148,7 +159,18 @@ class FuenteFirestore {
     }
 
     suspend fun actualizarEstadoPedido(orderId: String, estado: String) {
-        firestore.collection(ORDERS).document(orderId).update("estado", estado).await()
+        val referencia = firestore.collection(ORDERS).document(orderId)
+        firestore.runTransaction<Unit> { transaccion ->
+            val actual = transaccion.get(referencia).aOrder()
+            verificarCondicion(actual != null) { "No se encontró el pedido." }
+            if (actual?.estado == estado) return@runTransaction
+            verificarCondicion(when (estado) {
+                EstadoPedido.RECHAZADO -> actual?.estado == EstadoPedido.PENDIENTE
+                EstadoPedido.ENTREGADO -> actual?.estado == EstadoPedido.ACEPTADO
+                else -> true
+            }) { "El pedido ya cambió de estado. Vuelve a abrirlo." }
+            transaccion.update(referencia, "estado", estado)
+        }.await()
     }
 
     suspend fun aceptarPedido(orderId: String) {

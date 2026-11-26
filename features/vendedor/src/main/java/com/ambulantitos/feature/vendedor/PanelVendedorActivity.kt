@@ -1,10 +1,10 @@
 package com.ambulantitos.feature.vendedor
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.core.view.WindowCompat
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.view.View
 import android.view.WindowManager
 import androidx.lifecycle.ViewModelProvider
@@ -14,30 +14,33 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.ambulantitos.core.data.RepositorioFirestore
+import com.ambulantitos.core.domain.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import com.ambulantitos.core.network.ble.PracticaBle
 import com.ambulantitos.core.network.ble.VendedorBle
-import com.ambulantitos.core.network.p2p.PruebaP2p
+import com.ambulantitos.core.network.p2p.CatalogoP2p
 import com.ambulantitos.core.network.p2p.WifiDirect
 import java.io.IOException
 
 class PanelVendedorActivity : ComponentActivity() {
     private val bluetooth by lazy { VendedorBle(this) }
-    private var dialogoBle: AlertDialog? = null
-    private var dialogoP2p: AlertDialog? = null
-    private var negocioParaAnunciar: String? = null
-    private val permisoP2p = registerForActivityResult(ActivityResultContracts.RequestPermission()) { autorizado ->
-        if (autorizado) mostrarConexionP2p()
-        else Toast.makeText(this, R.string.vendedor_p2p_permiso, Toast.LENGTH_LONG).show()
-    }
-    private val permisosBle = registerForActivityResult(
+    private lateinit var botonModoLocal: TextView
+    private lateinit var estadoBle: TextView
+    private lateinit var estadoP2p: TextView
+    private var perfilVendedor: User? = null
+    private var modoLocalActivo = false
+    private var sesionP2p: Job? = null
+    private val permisosModoLocal = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions(),
     ) {
-        if (PracticaBle.tienePermisos(this, vendedor = true)) {
-            anunciarNegocio()
-        } else {
-            Toast.makeText(this, R.string.vendedor_ble_permiso, Toast.LENGTH_LONG).show()
-        }
+        iniciarModoLocal()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +58,7 @@ class PanelVendedorActivity : ComponentActivity() {
         val modeloPanel = ViewModelProvider(this)[
             PanelVendedorViewModel::class.java
         ]
+        val pedidos = PedidosPanelVendedor(this)
 
         val botonCerrarSesion = findViewById<View>(
             R.id.vendedor_panel_btn_cerrar_sesion
@@ -62,18 +66,18 @@ class PanelVendedorActivity : ComponentActivity() {
         val tituloNegocio = findViewById<TextView>(
             R.id.vendedor_panel_nombre_negocio
         )
-        val botonBle = findViewById<View>(R.id.vendedor_panel_practica_ble)
-        val botonP2p = findViewById<View>(R.id.vendedor_panel_practica_p2p)
-        botonP2p.setOnClickListener {
-            if (WifiDirect.tienePermiso(this)) mostrarConexionP2p()
-            else permisoP2p.launch(WifiDirect.PERMISO)
-        }
-        botonBle.setOnClickListener {
-            if (PracticaBle.tienePermisos(this, vendedor = true)) {
-                anunciarNegocio()
-            } else {
-                permisosBle.launch(PracticaBle.permisos(vendedor = true))
+        botonModoLocal = findViewById(R.id.vendedor_panel_modo_local)
+        estadoBle = findViewById(R.id.vendedor_panel_estado_ble)
+        estadoP2p = findViewById(R.id.vendedor_panel_estado_p2p)
+        botonModoLocal.setOnClickListener {
+            if (modoLocalActivo) {
+                detenerModoLocal()
+                return@setOnClickListener
             }
+            val pendientes = (PracticaBle.permisos(vendedor = true) + WifiDirect.PERMISO)
+                .filter { checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED }
+            if (pendientes.isEmpty()) iniciarModoLocal()
+            else permisosModoLocal.launch(pendientes.toTypedArray())
         }
 
         val errorPerfil = findViewById<TextView>(
@@ -91,12 +95,11 @@ class PanelVendedorActivity : ComponentActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 modeloPanel.estado.collect { estado ->
                     val vendedor = (estado as? EstadoPanelVendedor.Completado)?.usuario
-                    negocioParaAnunciar = vendedor?.nombreNegocio?.takeIf { it.isNotBlank() }
-                        ?: vendedor?.usuario
-                    botonBle.isEnabled = negocioParaAnunciar != null
-                    botonP2p.isEnabled = vendedor != null
-                    if (vendedor == null) dialogoBle?.dismiss()
-                    if (vendedor == null) dialogoP2p?.dismiss()
+                    perfilVendedor = vendedor
+                    val vendorId = vendedor?.idNegocio()
+                    pedidos.observar(vendorId)
+                    botonModoLocal.isEnabled = vendorId != null
+                    if (vendedor == null) detenerModoLocal()
                     errorPerfil.visibility = View.GONE
                     botonReintentarPerfil.visibility =
                         if (estado is EstadoPanelVendedor.Error) View.VISIBLE
@@ -157,6 +160,8 @@ class PanelVendedorActivity : ComponentActivity() {
         }
         botonCerrarSesion.setOnClickListener {
             botonCerrarSesion.isEnabled = false
+            detenerModoLocal()
+            pedidos.observar(null)
 
             modeloPanel.cerrarSesion()
 
@@ -173,71 +178,129 @@ class PanelVendedorActivity : ComponentActivity() {
         }
     }
 
-    private fun anunciarNegocio() {
-        val nombre = negocioParaAnunciar ?: return
-        if (dialogoBle != null) return
-        val dialogo = AlertDialog.Builder(this)
-            .setTitle(R.string.vendedor_practica_ble)
-            .setMessage("")
-            .setNegativeButton(R.string.vendedor_ble_detenido, null)
-            .create()
-        dialogoBle = dialogo
-        dialogo.setOnDismissListener {
-            bluetooth.detener()
-            dialogoBle = null
+    private fun iniciarModoLocal() {
+        val vendedor = perfilVendedor ?: return
+        val vendorId = vendedor.idNegocio() ?: return
+        val nombre = vendedor.nombreNegocio?.takeIf { it.isNotBlank() } ?: vendedor.usuario
+        if (modoLocalActivo) return
+        val permiteBle = PracticaBle.tienePermisos(this, vendedor = true)
+        val permiteP2p = WifiDirect.tienePermiso(this)
+        if (!permiteBle && !permiteP2p) {
+            Toast.makeText(this, R.string.vendedor_modo_local_permiso, Toast.LENGTH_LONG).show()
+            return
         }
-        dialogo.show()
-        dialogo.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        bluetooth.iniciar(
-            nombre = nombre,
-            estado = { dialogo.setMessage(it) },
-            recibido = { dialogo.setMessage(getString(R.string.vendedor_ble_mensaje, it)) },
-        )
+        modoLocalActivo = true
+        botonModoLocal.setText(R.string.vendedor_modo_local_detener)
+        estadoBle.visibility = View.VISIBLE
+        estadoP2p.visibility = View.VISIBLE
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        if (permiteBle) {
+            try {
+                bluetooth.iniciar(
+                    nombre = nombre,
+                    vendorId = vendorId,
+                    estado = { mostrarEstadoBle(it) },
+                )
+            } catch (_: SecurityException) {
+                mostrarEstadoBle(getString(R.string.vendedor_ble_permiso))
+            }
+        } else {
+            mostrarEstadoBle(getString(R.string.vendedor_ble_permiso))
+        }
+        if (permiteP2p) iniciarConexionP2p(vendorId, nombre)
+        else mostrarEstadoP2p(getString(R.string.vendedor_p2p_permiso))
     }
 
-    private fun mostrarConexionP2p() {
-        if (negocioParaAnunciar == null || dialogoP2p != null) return
+    private fun mostrarEstadoBle(mensaje: String) {
+        estadoBle.text = getString(R.string.vendedor_ble_estado, mensaje)
+    }
+
+    private fun mostrarEstadoP2p(mensaje: String) {
+        estadoP2p.text = getString(R.string.vendedor_p2p_estado, mensaje)
+    }
+
+    private fun User.idNegocio(): String? =
+        vendorId?.takeIf { it.isNotBlank() } ?: userId.takeIf { it.isNotBlank() }
+
+    private fun iniciarConexionP2p(vendorId: String, nombreNegocio: String) {
         val conexion = WifiDirect(this)
-        val dialogo = AlertDialog.Builder(this)
-            .setTitle(R.string.vendedor_practica_p2p)
-            .setMessage(R.string.vendedor_p2p_iniciando)
-            .setNegativeButton(R.string.vendedor_p2p_cerrar, null)
-            .show()
-        dialogoP2p = dialogo
-        dialogo.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        val sesion = lifecycleScope.launch {
+        mostrarEstadoP2p(getString(R.string.vendedor_p2p_iniciando))
+        sesionP2p = lifecycleScope.launch {
             try {
                 conexion.abrir(paraBusqueda = false)
                 val ip = conexion.crearGrupo()
-                val nombre = conexion.nombreDelTelefono()?.takeIf { it.isNotBlank() }
-                PruebaP2p.escuchar(
-                    direccion = ip,
-                    listo = {
-                        dialogo.setMessage(if (nombre == null) getString(R.string.vendedor_p2p_listo_sin_nombre)
-                        else getString(R.string.vendedor_p2p_listo, nombre))
-                    },
-                    recibido = { dialogo.setMessage(getString(R.string.vendedor_p2p_recibido, it)) },
-                )
+                val telefono = conexion.nombreDelTelefono()?.takeIf { it.isNotBlank() }
+                val mensajeListo = if (telefono == null) getString(R.string.vendedor_p2p_listo_sin_nombre)
+                    else getString(R.string.vendedor_p2p_listo, telefono)
+                coroutineScope {
+                    var bytes: ByteArray? = null
+                    var servidorListo = false
+                    var catalogoConError = false
+                    fun actualizarEstado() {
+                        val mensaje = when {
+                            catalogoConError -> getString(R.string.vendedor_p2p_catalogo_error)
+                            servidorListo && bytes != null -> mensajeListo
+                            else -> getString(R.string.vendedor_p2p_cargando_catalogo)
+                        }
+                        mostrarEstadoP2p(mensaje)
+                    }
+                    launch {
+                        RepositorioFirestore.obtener().escucharCatalogoCliente(vendorId)
+                            .catch {
+                                bytes = null
+                                catalogoConError = true
+                                actualizarEstado()
+                            }
+                            .collectLatest { productos ->
+                                bytes = try {
+                                    withContext(Dispatchers.Default) {
+                                        CatalogoP2p.codificar(CatalogoP2p.Catalogo(vendorId, nombreNegocio, productos))
+                                    }
+                                } catch (_: IOException) {
+                                    null
+                                }
+                                catalogoConError = bytes == null
+                                actualizarEstado()
+                                if (bytes == null) return@collectLatest
+                                val miniaturas = cargarFotosCatalogo(this@PanelVendedorActivity, productos)
+                                if (miniaturas.isNotEmpty()) {
+                                    val catalogo = CatalogoP2p.Catalogo(vendorId, nombreNegocio, productos, miniaturas)
+                                    bytes = withContext(Dispatchers.Default) { CatalogoP2p.codificar(catalogo) }
+                                }
+                            }
+                    }
+                    CatalogoP2p.escuchar(ip, vendorId, contenido = { bytes }, listo = {
+                        servidorListo = true
+                        actualizarEstado()
+                    })
+                }
             } catch (error: WifiDirect.Error) {
-                dialogo.setMessage(error.message)
+                mostrarEstadoP2p(error.message ?: getString(R.string.vendedor_p2p_error))
             } catch (_: IOException) {
-                dialogo.setMessage(getString(R.string.vendedor_p2p_error))
+                mostrarEstadoP2p(getString(R.string.vendedor_p2p_error))
             } catch (_: SecurityException) {
-                dialogo.setMessage(getString(R.string.vendedor_p2p_permiso))
+                mostrarEstadoP2p(getString(R.string.vendedor_p2p_permiso))
             } finally {
                 conexion.close()
             }
         }
-        dialogo.setOnDismissListener {
-            sesion.cancel()
-            conexion.close()
-            dialogoP2p = null
-        }
     }
 
-    override fun onStop() {
-        dialogoBle?.dismiss()
-        dialogoP2p?.dismiss()
-        super.onStop()
+    private fun detenerModoLocal() {
+        if (!modoLocalActivo) return
+        modoLocalActivo = false
+        bluetooth.detener()
+        sesionP2p?.cancel()
+        sesionP2p = null
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        botonModoLocal.setText(R.string.vendedor_modo_local_iniciar)
+        estadoBle.visibility = View.GONE
+        estadoP2p.visibility = View.GONE
+    }
+
+    override fun onDestroy() {
+        detenerModoLocal()
+        super.onDestroy()
     }
 }

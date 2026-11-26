@@ -81,7 +81,7 @@
             android:paddingBottom="24dp">
 
             <Button
-                android:id="@+id/vendedor_panel_practica_ble"
+                android:id="@+id/vendedor_panel_modo_local"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/vendedor_panel_fondo_modo_local"
@@ -90,20 +90,31 @@
                 android:paddingEnd="12dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
-                android:text="@string/vendedor_practica_ble"
+                android:text="@string/vendedor_modo_local_iniciar"
+                android:textAllCaps="false"
                 android:enabled="false"
                 android:minHeight="48dp"
                 android:textColor="#9E2412"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/vendedor_panel_practica_p2p"
+            <TextView
+                android:id="@+id/vendedor_panel_estado_ble"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:enabled="false"
-                android:text="@string/vendedor_practica_p2p" />
+                android:accessibilityLiveRegion="polite"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/vendedor_panel_estado_p2p"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:accessibilityLiveRegion="polite"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/vendedor_panel_switch_ubicacion"
@@ -234,6 +245,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
+                    android:id="@+id/vendedor_panel_mensaje_pedidos"
                     android:text="@string/vendedor_panel_sin_pedidos"
                     android:textColor="#706674"
                     android:textSize="14sp" />

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="vendedor_practica_ble">Anunciar negocio por Bluetooth</string>
-    <string name="vendedor_ble_detenido">Detener anuncio</string>
+    <string name="vendedor_modo_local_iniciar">Activar modo local</string>
+    <string name="vendedor_modo_local_detener">Desactivar modo local</string>
+    <string name="vendedor_modo_local_permiso">Permite el acceso a dispositivos cercanos para anunciar tu negocio.</string>
+    <string name="vendedor_ble_estado">Bluetooth · %1$s</string>
     <string name="vendedor_ble_permiso">Permite el acceso a dispositivos cercanos para anunciar el negocio.</string>
-    <string name="vendedor_ble_mensaje">Mensaje recibido: %1$s</string>
 </resources>

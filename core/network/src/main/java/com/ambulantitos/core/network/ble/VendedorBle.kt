@@ -26,8 +26,10 @@ class VendedorBle(context: Context) {
     private var sesion: BluetoothGattServerCallback? = null
     private var espera: Runnable? = null
 
-    fun iniciar(nombre: String, estado: (String) -> Unit, recibido: (String) -> Unit) {
+    fun iniciar(nombre: String, vendorId: String, estado: (String) -> Unit) {
         detener()
+        require(PracticaBle.formatoVendorId.matches(vendorId))
+        val identidad = vendorId.toByteArray(Charsets.UTF_8)
         val adapter = PracticaBle.adaptador(app)
         val anunciante = adapter?.takeIf { it.isEnabled }?.bluetoothLeAdvertiser
         if (anunciante == null) {
@@ -36,14 +38,14 @@ class VendedorBle(context: Context) {
         }
         fun fallar() {
             detener()
-            estado("No se pudo iniciar el anuncio BLE. Vuelve a abrir la práctica.")
+            estado("No se pudo iniciar el anuncio BLE. Desactiva y vuelve a activar el modo local.")
         }
         val anuncioActual = object : AdvertiseCallback() {
             override fun onStartSuccess(settingsInEffect: AdvertiseSettings) {
                 if (anuncio !== this) return
                 espera?.let(principal::removeCallbacks)
                 espera = null
-                estado("Anuncio BLE activo. Esperando un mensaje del cliente.")
+                estado("Anuncio activo. Los clientes cercanos pueden encontrar tu negocio.")
             }
 
             override fun onStartFailure(errorCode: Int) {
@@ -74,23 +76,24 @@ class VendedorBle(context: Context) {
                 }
             }
 
-            override fun onCharacteristicWriteRequest(
+            override fun onCharacteristicReadRequest(
                 device: BluetoothDevice,
                 requestId: Int,
-                characteristic: BluetoothGattCharacteristic,
-                preparedWrite: Boolean,
-                responseNeeded: Boolean,
                 offset: Int,
-                value: ByteArray,
+                characteristic: BluetoothGattCharacteristic,
             ) {
                 principal.post {
                     val abierto = servidor?.takeIf { sesion === this } ?: return@post
-                    val valido = characteristic.uuid == PracticaBle.mensaje && !preparedWrite &&
-                        offset == 0 && value.size in 1..PracticaBle.MAX_BYTES_MENSAJE
-                    val estadoGatt = if (valido) BluetoothGatt.GATT_SUCCESS else BluetoothGatt.GATT_FAILURE
+                    val estadoGatt = when {
+                        characteristic.uuid != PracticaBle.identidadVendedor -> BluetoothGatt.GATT_FAILURE
+                        offset !in 0..identidad.size -> BluetoothGatt.GATT_INVALID_OFFSET
+                        else -> BluetoothGatt.GATT_SUCCESS
+                    }
+                    val datos = if (estadoGatt == BluetoothGatt.GATT_SUCCESS) {
+                        identidad.copyOfRange(offset, identidad.size)
+                    } else null
                     try {
-                        if (responseNeeded) abierto.sendResponse(device, requestId, estadoGatt, 0, null)
-                        if (valido) recibido(value.toString(Charsets.UTF_8))
+                        abierto.sendResponse(device, requestId, estadoGatt, offset, datos)
                     } catch (_: SecurityException) {
                         fallar()
                     }
@@ -103,9 +106,9 @@ class VendedorBle(context: Context) {
         val servicioGatt = BluetoothGattService(PracticaBle.servicio.uuid, BluetoothGattService.SERVICE_TYPE_PRIMARY)
         servicioGatt.addCharacteristic(
             BluetoothGattCharacteristic(
-                PracticaBle.mensaje,
-                BluetoothGattCharacteristic.PROPERTY_WRITE,
-                BluetoothGattCharacteristic.PERMISSION_WRITE,
+                PracticaBle.identidadVendedor,
+                BluetoothGattCharacteristic.PROPERTY_READ,
+                BluetoothGattCharacteristic.PERMISSION_READ,
             ),
         )
         estado("Iniciando anuncio BLE…")

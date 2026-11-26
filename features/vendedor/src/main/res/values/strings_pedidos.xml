@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vendedor_pedidos_cargando">Cargando pedidos…</string>
+    <string name="vendedor_pedidos_error">No se pudieron cargar los pedidos. Revisa tu conexión.</string>
+    <string name="vendedor_pedidos_sin_resultados">No hay pedidos que coincidan con la búsqueda.</string>
+    <string name="vendedor_pedido_titulo">Pedido %1$d · %2$s</string>
+    <string name="vendedor_pedido_linea">%1$d × %2$s</string>
+    <string name="vendedor_pedido_estado">Estado: %1$s</string>
+    <string name="vendedor_pedido_aceptar">Aceptar</string>
+    <string name="vendedor_pedido_rechazar">Rechazar</string>
+    <string name="vendedor_pedido_entregar">Marcar entregado</string>
+</resources>

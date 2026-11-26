@@ -6,15 +6,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.ambulantitos.core.data.RepositorioFirestore
+import com.ambulantitos.core.data.getOrNull
 import com.ambulantitos.core.network.ble.ClienteBle
 import com.ambulantitos.core.network.ble.PracticaBle
-import com.ambulantitos.core.network.p2p.PruebaP2p
+import com.ambulantitos.core.network.p2p.CatalogoP2p
 import com.ambulantitos.core.network.p2p.WifiDirect
 import com.ambulantitos.feature.cliente.R as ClienteR
 import com.google.android.material.appbar.MaterialToolbar
@@ -29,8 +31,11 @@ class BusquedaClienteActivity : ComponentActivity() {
     private val bluetooth by lazy { ClienteBle(this) }
     private var dialogoBle: AlertDialog? = null
     private var dialogoP2p: AlertDialog? = null
+    private var conectandoP2p = false
+    private var vendorId: String? = null
+    private var nombreVendedor: String = ""
     private val permisoP2p = registerForActivityResult(ActivityResultContracts.RequestPermission()) { autorizado ->
-        if (autorizado) mostrarBusquedaP2p()
+        if (autorizado) vendorId?.let { mostrarBusquedaP2p(it) }
         else Toast.makeText(this, ClienteR.string.cliente_p2p_permiso, Toast.LENGTH_LONG).show()
     }
     private val permisosBle = registerForActivityResult(
@@ -49,11 +54,16 @@ class BusquedaClienteActivity : ComponentActivity() {
 
         //Muestra la pantalla de Vendedores cercanos
         setContentView(ClienteR.layout.pantalla_buscar_vendedores_cliente)
+        vendorId = savedInstanceState?.getString(EXTRA_VENDOR_ID)
+        nombreVendedor = savedInstanceState?.getString(EXTRA_NOMBRE_VENDEDOR).orEmpty()
+        mostrarVendedorSeleccionado()
         findViewById<View>(ClienteR.id.boton_busqueda_p2p).setOnClickListener {
-            if (WifiDirect.tienePermiso(this)) mostrarBusquedaP2p()
+            val seleccionado = vendorId ?: return@setOnClickListener
+            if (WifiDirect.tienePermiso(this)) mostrarBusquedaP2p(seleccionado)
             else permisoP2p.launch(WifiDirect.PERMISO)
         }
         findViewById<View>(ClienteR.id.boton_busqueda_ble).setOnClickListener {
+            if (dialogoBle != null || dialogoP2p != null) return@setOnClickListener
             if (PracticaBle.tienePermisos(this, vendedor = false)) {
                 mostrarBusquedaBle()
             } else {
@@ -70,8 +80,7 @@ class BusquedaClienteActivity : ComponentActivity() {
         //Abre Productos disponibles
         val botonVerProductos = findViewById<View>(ClienteR.id.boton_ver_productos)
         botonVerProductos.setOnClickListener {
-            val intent = Intent(this, ProductosClienteActivity::class.java)
-            startActivity(intent)
+            vendorId?.let { abrirCatalogo(it) }
         }
 
         //Abre la lista de pedidos
@@ -98,6 +107,26 @@ class BusquedaClienteActivity : ComponentActivity() {
         aplicarBordes()
     }
 
+    private fun mostrarVendedorSeleccionado() {
+        findViewById<View>(ClienteR.id.tarjeta_vendedor).visibility = if (vendorId == null) View.GONE else View.VISIBLE
+        findViewById<View>(ClienteR.id.boton_busqueda_p2p).isEnabled = vendorId != null
+        findViewById<TextView>(ClienteR.id.texto_nombre_vendedor).text = nombreVendedor
+    }
+
+    private fun abrirCatalogo(id: String, local: ByteArray? = null) {
+        startActivity(Intent(this, ProductosClienteActivity::class.java).apply {
+            putExtra(EXTRA_VENDOR_ID, id)
+            putExtra(EXTRA_NOMBRE_VENDEDOR, nombreVendedor)
+            putExtra(EXTRA_CATALOGO_LOCAL, local)
+        })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(EXTRA_VENDOR_ID, vendorId)
+        outState.putString(EXTRA_NOMBRE_VENDEDOR, nombreVendedor)
+    }
+
     private fun mostrarBusquedaBle() {
         if (dialogoBle != null) return
         val vendedores = linkedMapOf<String, ClienteBle.VendedorCercano>()
@@ -105,8 +134,7 @@ class BusquedaClienteActivity : ComponentActivity() {
         val dialogo = AlertDialog.Builder(this)
             .setTitle(ClienteR.string.cliente_ble_buscando)
             .setSingleChoiceItems(lista, -1, null)
-            .setPositiveButton(ClienteR.string.cliente_ble_enviar, null)
-            .setNeutralButton(ClienteR.string.cliente_ble_buscar_de_nuevo, null)
+            .setPositiveButton(ClienteR.string.cliente_ble_elegir, null)
             .setNegativeButton(android.R.string.cancel, null)
             .create()
         dialogoBle = dialogo
@@ -115,61 +143,61 @@ class BusquedaClienteActivity : ComponentActivity() {
             dialogoBle = null
         }
         dialogo.show()
-        val botonEnviar = dialogo.getButton(DialogInterface.BUTTON_POSITIVE)
-        val botonBuscar = dialogo.getButton(DialogInterface.BUTTON_NEUTRAL)
+        val elegir = dialogo.getButton(DialogInterface.BUTTON_POSITIVE)
 
-        fun buscar() {
-            vendedores.clear()
-            lista.clear()
-            dialogo.listView.clearChoices()
-            botonEnviar.isEnabled = false
-            botonBuscar.isEnabled = false
-            dialogo.setTitle(ClienteR.string.cliente_ble_buscando)
-            bluetooth.buscar(
-                encontrado = { vendedor ->
-                    val anterior = vendedores[vendedor.id]
-                    if (anterior == null || (vendedor.nombre.isNotBlank() && anterior.nombre != vendedor.nombre)) {
-                        vendedores[vendedor.id] = vendedor
-                        lista.clear()
-                        lista.addAll(vendedores.values.map {
-                            it.nombre.ifBlank { getString(ClienteR.string.cliente_ble_vendedor, it.id.takeLast(5)) }
-                        })
-                        dialogo.setTitle(ClienteR.string.cliente_ble_seleccionar)
-                    }
-                },
-                terminado = { error ->
-                    botonBuscar.isEnabled = true
-                    if (error != null) {
-                        dialogo.setTitle(error)
-                    } else if (vendedores.isEmpty()) {
-                        dialogo.setTitle(ClienteR.string.cliente_ble_sin_resultados)
-                    }
-                },
-            )
-        }
-
-        dialogo.listView.setOnItemClickListener { _, _, _, _ -> botonEnviar.isEnabled = true }
-        botonBuscar.setOnClickListener { buscar() }
-        botonEnviar.setOnClickListener {
+        elegir.isEnabled = false
+        dialogo.listView.setOnItemClickListener { _, _, _, _ -> elegir.isEnabled = true }
+        elegir.setOnClickListener {
             val indice = dialogo.listView.checkedItemPosition
             val vendedor = vendedores.values.elementAtOrNull(indice) ?: return@setOnClickListener
-            botonEnviar.isEnabled = false
-            botonBuscar.isEnabled = false
+            elegir.isEnabled = false
             dialogo.listView.isEnabled = false
-            dialogo.setTitle(ClienteR.string.cliente_ble_enviando)
-            bluetooth.enviar(vendedor, getString(ClienteR.string.cliente_ble_mensaje)) { exito ->
-                dialogo.setTitle(
-                    if (exito) ClienteR.string.cliente_ble_confirmado else ClienteR.string.cliente_ble_error_envio,
-                )
-                dialogo.listView.isEnabled = true
-                botonEnviar.isEnabled = true
-                botonBuscar.isEnabled = true
+            dialogo.setTitle(ClienteR.string.cliente_ble_identificando)
+            bluetooth.identificar(vendedor) { id ->
+                if (id == null) {
+                    dialogo.setTitle(ClienteR.string.cliente_ble_error_identidad)
+                    dialogo.listView.isEnabled = true
+                    elegir.isEnabled = true
+                } else {
+                    vendorId = id
+                    nombreVendedor = vendedor.nombre.ifBlank {
+                        getString(ClienteR.string.cliente_ble_vendedor, id.takeLast(5))
+                    }
+                    mostrarVendedorSeleccionado()
+                    dialogo.dismiss()
+                    lifecycleScope.launch {
+                        val perfil = RepositorioFirestore.obtener().obtenerVendedor(id).getOrNull()
+                        if (vendorId == id && perfil != null) {
+                            nombreVendedor = perfil.nombreNegocio.ifBlank { nombreVendedor }
+                            mostrarVendedorSeleccionado()
+                        }
+                    }
+                }
             }
         }
-        buscar()
+        bluetooth.buscar(
+            encontrado = { vendedor ->
+                val anterior = vendedores[vendedor.id]
+                if (anterior == null || (vendedor.nombre.isNotBlank() && anterior.nombre != vendedor.nombre)) {
+                    vendedores[vendedor.id] = vendedor
+                    lista.clear()
+                    lista.addAll(vendedores.values.map {
+                        it.nombre.ifBlank { getString(ClienteR.string.cliente_ble_vendedor, it.id.takeLast(5)) }
+                    })
+                    dialogo.setTitle(ClienteR.string.cliente_ble_seleccionar)
+                }
+            },
+            terminado = { error ->
+                if (error != null) {
+                    dialogo.setTitle(error)
+                } else if (vendedores.isEmpty()) {
+                    dialogo.setTitle(ClienteR.string.cliente_ble_sin_resultados)
+                }
+            },
+        )
     }
 
-    private fun mostrarBusquedaP2p() {
+    private fun mostrarBusquedaP2p(vendorId: String) {
         if (dialogoP2p != null) return
         val conexion = WifiDirect(this)
         var dispositivos = emptyList<WifiDirect.Dispositivo>()
@@ -225,13 +253,19 @@ class BusquedaClienteActivity : ComponentActivity() {
             lista.clear()
             reintentar.isEnabled = false
             dialogo.setTitle(ClienteR.string.cliente_p2p_conectando)
+            conectandoP2p = true
             trabajo = lifecycleScope.launch {
                 try {
                     busqueda?.cancelAndJoin()
                     val ip = conexion.conectar(dispositivo)
-                    dialogo.setTitle(ClienteR.string.cliente_p2p_enviando)
-                    PruebaP2p.enviar(ip)
-                    dialogo.setTitle(ClienteR.string.cliente_p2p_confirmado)
+                    dialogo.setTitle(ClienteR.string.cliente_p2p_recibiendo)
+                    val catalogo = CatalogoP2p.pedir(ip, vendorId)
+                    dialogo.dismiss()
+                    abrirCatalogo(vendorId, catalogo)
+                } catch (_: CatalogoP2p.OtroVendedor) {
+                    dialogo.setTitle(ClienteR.string.cliente_p2p_otro_vendedor)
+                } catch (_: CatalogoP2p.SinCatalogo) {
+                    dialogo.setTitle(ClienteR.string.cliente_p2p_sin_catalogo)
                 } catch (error: WifiDirect.Error) {
                     dialogo.setTitle(error.message)
                 } catch (_: IOException) {
@@ -240,6 +274,7 @@ class BusquedaClienteActivity : ComponentActivity() {
                     dialogo.setTitle(ClienteR.string.cliente_p2p_permiso)
                 } finally {
                     conexion.close()
+                    conectandoP2p = false
                     reintentar.isEnabled = true
                 }
             }
@@ -248,6 +283,7 @@ class BusquedaClienteActivity : ComponentActivity() {
         dialogo.setOnDismissListener {
             trabajo?.cancel()
             conexion.close()
+            conectandoP2p = false
             dialogoP2p = null
         }
         buscar()
@@ -255,7 +291,19 @@ class BusquedaClienteActivity : ComponentActivity() {
 
     override fun onStop() {
         dialogoBle?.dismiss()
-        dialogoP2p?.dismiss()
+        // La invitación de Android puede cubrir la pantalla mientras se forma el grupo.
+        if (!conectandoP2p) dialogoP2p?.dismiss()
         super.onStop()
+    }
+
+    override fun onDestroy() {
+        dialogoP2p?.dismiss()
+        super.onDestroy()
+    }
+
+    companion object {
+        internal const val EXTRA_VENDOR_ID = "vendorId"
+        internal const val EXTRA_NOMBRE_VENDEDOR = "nombreVendedor"
+        internal const val EXTRA_CATALOGO_LOCAL = "catalogoLocal"
     }
 }

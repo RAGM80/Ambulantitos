@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cliente_busqueda_ble">Buscar por Bluetooth</string>
+    <string name="cliente_buscar_vendedores">Buscar por BLE</string>
     <string name="cliente_ble_permiso">Permite el acceso a dispositivos cercanos para buscar por Bluetooth.</string>
     <string name="cliente_ble_buscando">Buscando vendedores…</string>
     <string name="cliente_ble_sin_resultados">No se encontraron vendedores</string>
     <string name="cliente_ble_seleccionar">Selecciona un vendedor</string>
     <string name="cliente_ble_vendedor">Vendedor %1$s</string>
-    <string name="cliente_ble_enviar">Enviar prueba</string>
-    <string name="cliente_ble_enviando">Enviando mensaje…</string>
-    <string name="cliente_ble_confirmado">El vendedor recibió el mensaje</string>
-    <string name="cliente_ble_error_envio">No se confirmó la entrega</string>
-    <string name="cliente_ble_buscar_de_nuevo">Volver a buscar</string>
-    <string name="cliente_ble_mensaje" translatable="false">Hola vendedor</string>
+    <string name="cliente_ble_elegir">Elegir</string>
+    <string name="cliente_ble_identificando">Identificando negocio…</string>
+    <string name="cliente_ble_error_identidad">No se pudo identificar el negocio. Vuelve a seleccionarlo.</string>
 </resources>

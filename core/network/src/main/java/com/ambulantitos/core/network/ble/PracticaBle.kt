@@ -9,8 +9,8 @@ import java.util.UUID
 
 object PracticaBle {
     internal val servicio = ParcelUuid.fromString("18c2e952-e699-4733-93a3-bba156933cf1")
-    internal val mensaje = UUID.fromString("12b43243-3b20-4b8f-be2a-1043422a4414")
-    const val MAX_BYTES_MENSAJE = 20
+    internal val identidadVendedor = UUID.fromString("53ddceb6-fc70-43d1-852f-30a6310e4ff4")
+    internal val formatoVendorId = Regex("[A-Za-z0-9_-]{1,128}")
 
     fun permisos(vendedor: Boolean): Array<String> = arrayOf(
         Manifest.permission.BLUETOOTH_CONNECT,
