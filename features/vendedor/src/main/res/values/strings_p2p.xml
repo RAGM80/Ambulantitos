@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vendedor_practica_p2p">Abrir conexión Wi-Fi Direct</string>
+    <string name="vendedor_p2p_cerrar">Cerrar conexión</string>
+    <string name="vendedor_p2p_permiso">Permite el acceso a dispositivos cercanos para iniciar Wi-Fi Direct.</string>
+    <string name="vendedor_p2p_iniciando">Preparando grupo Wi-Fi Direct…</string>
+    <string name="vendedor_p2p_listo">Grupo listo. Desde Cliente, elige este teléfono: %1$s. Acepta la invitación si aparece.</string>
+    <string name="vendedor_p2p_listo_sin_nombre">Grupo listo. Desde Cliente, elige este teléfono y acepta la invitación si aparece.</string>
+    <string name="vendedor_p2p_recibido">Mensaje recibido por Wi-Fi Direct: %1$s</string>
+    <string name="vendedor_p2p_error">No se pudo abrir la conexión Wi-Fi Direct.</string>
+</resources>
