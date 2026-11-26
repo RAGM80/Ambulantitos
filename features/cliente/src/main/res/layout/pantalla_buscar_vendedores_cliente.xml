@@ -193,5 +193,13 @@
             android:textColor="?attr/colorPrimary"
             android:textSize="16sp"
             android:textStyle="bold" />
+        <!--Botón Cerrar sesión-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/boton_cerrar_sesion_cliente"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/cliente_cerrar_sesion"
+            android:textAllCaps="false" />
     </LinearLayout>
 </LinearLayout>

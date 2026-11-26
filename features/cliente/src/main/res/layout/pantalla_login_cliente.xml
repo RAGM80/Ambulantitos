@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Desplazamiento de la pantalla-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
+    android:theme="@style/TemaClienteAmbulantitos"
     android:fillViewport="true">
+
     <!--Contenido del inicio de sesión-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,6 +17,7 @@
         android:paddingTop="72dp"
         android:paddingEnd="28dp"
         android:paddingBottom="32dp">
+
         <!--Logo de Ambulantitos-->
         <ImageView
             android:id="@+id/iv_logo_cliente"
@@ -22,12 +26,13 @@
             android:src="@drawable/logo_ambulantitos"
             android:scaleType="fitCenter"
             android:contentDescription="@string/cliente_login_marca" />
+
         <!--Contenedor del usuario-->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="24dp">
-            <!--Campo Usuario-->
+
             <EditText
                 android:id="@+id/et_usuario_cliente"
                 android:layout_width="match_parent"
@@ -43,7 +48,7 @@
                 android:paddingEnd="16dp"
                 android:textColor="#212121"
                 android:textSize="16sp" />
-            <!--Etiqueta Usuario-->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,40 +61,28 @@
                 android:textColor="#666666"
                 android:textSize="12sp" />
         </FrameLayout>
-        <!--Contenedor de la contraseña-->
-        <FrameLayout
+
+        <!--El ojito permite mostrar u ocultar la contraseña-->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="8dp">
-            <!--Campo Contraseña-->
-            <EditText
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/cliente_login_contrasena"
+            app:expandedHintEnabled="false"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_contrasena_cliente"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
                 android:autofillHints="password"
-                android:background="@drawable/fondo_campo_login_cliente"
-                android:backgroundTint="@null"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
-                android:singleLine="true"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="#212121"
-                android:textSize="16sp" />
-            <!--Etiqueta Contraseña-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:background="#FAFAFA"
-                android:labelFor="@id/et_contrasena_cliente"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:text="@string/cliente_login_contrasena"
-                android:textColor="#666666"
-                android:textSize="12sp" />
-        </FrameLayout>
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!--Botón Iniciar sesión-->
         <Button
             android:id="@+id/btn_login_cliente"
@@ -103,6 +96,7 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
+
         <!--Opción Crear cuenta nueva-->
         <TextView
             android:id="@+id/tv_registro_cliente"
@@ -115,6 +109,7 @@
             android:textColor="#352080"
             android:textSize="14sp"
             android:textStyle="bold" />
+
         <!--Botón Olvidé mi contraseña-->
         <Button
             android:id="@+id/boton_recuperar_cuenta_cliente"
