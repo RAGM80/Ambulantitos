@@ -14,6 +14,15 @@
         <activity
             android:name="com.ambulantitos.feature.vendedor.PanelVendedorActivity"
             android:exported="false" />
+        <activity
+            android:name="com.ambulantitos.feature.vendedor.ProductosVendedorActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.ambulantitos.feature.vendedor.FormularioProductoVendedorActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.ambulantitos.feature.vendedor.DetalleProductoVendedorActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -122,6 +122,22 @@
     <string name="vendedor_registro_error_contrasena_corta">La contraseña debe tener al menos 6 caracteres</string>
     <string name="vendedor_registro_error_contrasena_larga">La contraseña debe tener entre 6 y 12 caracteres</string>
     <string name="vendedor_registro_cuenta_creada">Cuenta creada correctamente</string>
+    <string name="vendedor_panel_reintentar_perfil">Reintentar</string>
+    <string name="vendedor_item_producto_existencias_formato">Existencias: %1$d</string>
+    <string name="vendedor_productos_cargando">Cargando productos…</string>
+    <string name="vendedor_formulario_producto_contador_formato">%1$d de 6</string>
+    <string name="vendedor_formulario_producto_imagen_seleccionada">Imagen seleccionada</string>
 
+
+    <string name="vendedor_formulario_producto_subiendo_imagen">Subiendo fotografía…</string>
+    <string name="vendedor_formulario_producto_guardando">Guardando producto…</string>
+    <string name="vendedor_formulario_producto_registrado">Producto registrado correctamente</string>
+    <string name="vendedor_formulario_producto_error_permiso_imagen">No se pudo conservar el acceso a la foto. Selecciónala nuevamente.</string>
+    <string name="vendedor_detalle_producto_cargando">Cargando producto…</string>
+    <string name="vendedor_detalle_producto_no_disponible">El producto ya no está disponible en el catálogo.</string>
+    <string name="vendedor_detalle_producto_sin_marca">Sin marca</string>
+    <string name="vendedor_detalle_producto_sin_descripcion">Sin descripción</string>
+    <string name="vendedor_detalle_producto_sin_ingredientes">Sin ingredientes registrados</string>
+    <string name="vendedor_detalle_producto_confirmar_agotado">¿Marcar %1$s como agotado? Sus existencias quedarán en cero.</string>
+    <string name="vendedor_formulario_producto_actualizado">Producto actualizado correctamente</string>
 </resources>
-

@@ -120,16 +120,29 @@ class RepositorioFirestore(
         baseDeDatos.listarCatalogoCliente(vendorId).filter(Product::visibleEnCatalogoCliente)
     }
 
+    suspend fun obtenerProducto(vendorId: String, productId: String): ResultadoAmbulantitos<Product> = ejecutar {
+        require(vendorId.isNotBlank() && productId.isNotBlank()) { "Falta identificar el producto." }
+        val producto = baseDeDatos.obtenerProducto(vendorId, productId)
+            ?: error("No se encontró el producto.")
+        check(producto.activo) { "El producto ya fue eliminado del catálogo." }
+        producto
+    }
+
+    fun escucharProducto(vendorId: String, productId: String): Flow<Product?> =
+        baseDeDatos.escucharProducto(vendorId, productId)
+
     suspend fun crearProducto(vendorId: String, producto: Product): ResultadoAmbulantitos<Product> = ejecutar {
         val nuevo = normalizarProducto(producto).copy(activo = true)
         baseDeDatos.crearProducto(vendorId, nuevo)
     }
 
-    suspend fun editarProducto(vendorId: String, producto: Product): ResultadoAmbulantitos<Product> = ejecutar {
+    suspend fun editarProducto(
+        vendorId: String,
+        producto: Product,
+        existenciasEsperadas: Int? = null
+    ): ResultadoAmbulantitos<Product> = ejecutar {
         require(producto.productId.isNotBlank()) { "Falta el identificador del producto." }
-        val actualizado = normalizarProducto(producto)
-        baseDeDatos.editarProducto(vendorId, actualizado)
-        actualizado
+        baseDeDatos.editarProducto(vendorId, normalizarProducto(producto), existenciasEsperadas)
     }
 
     suspend fun marcarProductoAgotado(vendorId: String, productId: String): ResultadoAmbulantitos<Unit> =

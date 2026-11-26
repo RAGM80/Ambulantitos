@@ -63,8 +63,8 @@
                 android:layout_height="96dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/vendedor_producto_fondo_icono"
-                android:padding="16dp"
-                android:scaleType="fitCenter"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
                 android:contentDescription="@null"
                 tools:src="@drawable/vendedor_producto_ic_esquite" />
 
