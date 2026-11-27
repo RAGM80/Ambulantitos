@@ -25,6 +25,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
     implementation(project(":core:domain"))
@@ -36,4 +37,5 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.coil)
     implementation(libs.coil.network.okhttp)
+    implementation(libs.osmdroid.android)
 }

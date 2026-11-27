@@ -9,4 +9,8 @@
     <string name="cliente_ble_elegir">Elegir</string>
     <string name="cliente_ble_identificando">Identificando negocio…</string>
     <string name="cliente_ble_error_identidad">No se pudo identificar el negocio. Vuelve a seleccionarlo.</string>
+    <string name="cliente_mapa_tu_ubicacion">Tu ubicación</string>
+    <string name="cliente_mapa_distancia_ble">~%1$d m • Señal BLE</string>
+    <string name="cliente_mapa_ubicacion_real">Ubicación verificada • BLE</string>
+    <string name="cliente_mapa_vendedores_encontrados">%1$d vendedor(es) cercano(s) en el mapa</string>
 </resources>

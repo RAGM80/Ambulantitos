@@ -21,6 +21,7 @@ class ClienteBle(context: Context) {
         internal val dispositivo: BluetoothDevice,
         val id: String,
         val nombre: String,
+        val rssi: Int = -70,
     )
 
     private val app = context.applicationContext
@@ -45,7 +46,7 @@ class ClienteBle(context: Context) {
                 val nombre = result.scanRecord?.getServiceData(PracticaBle.servicio)
                     ?.toString(Charsets.UTF_8).orEmpty()
                 val id = result.device.address
-                encontrado(VendedorCercano(result.device, id, nombre))
+                encontrado(VendedorCercano(result.device, id, nombre, result.rssi))
             }
 
             override fun onScanFailed(errorCode: Int) {
